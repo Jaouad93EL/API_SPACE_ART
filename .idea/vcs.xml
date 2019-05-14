@@ -2,6 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/API_SPACE_ART" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/API_SPACE_ART/SpaceArt" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/SpaceArt" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/https/github.com/Jaouad93EL/API_SA.git" vcs="Git" />
   </component>
 </project>

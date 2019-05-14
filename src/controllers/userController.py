@@ -111,6 +111,7 @@ def login():
     token = Auth.generate_token(ser_data.get('id'))
     info_user = {
         'jwt_token': token,
+        'id_user': ser_data.get('id'),
         'firstname': ser_data.get('firstname'),
         'lastname': ser_data.get('lastname'),
         'email': ser_data.get('email')
