@@ -13,7 +13,6 @@ user_schema = UserSchema()
 @profile_api.route('/update', methods=['PUT'])
 @Auth.auth_required
 def update_profile():
-    print("okokok")
     req_data = request.get_json()
     data_user, error_user = user_schema.load(req_data, partial=True)
     data_profile, error_profile = profile_schema.load(req_data, partial=True)
