@@ -72,3 +72,11 @@ def get_my_profile():
     if not profile: return custom_response({'error': 'Profile not found'}, 400)
     ser_profile = profile_schema.dump(profile).data
     return custom_response({'successful': ser_profile}, 200)
+
+
+@profile_api.route('/get_profile/<int:user_id>', methods=['GET'])
+def get_profile(user_id):
+    profile = ProfileModel.get_one_profile(user_id)
+    if not profile: return custom_response({'error': 'Profile not found'}, 400)
+    ser_profile = profile_schema.dump(profile).data
+    return custom_response({'successful': ser_profile}, 200)

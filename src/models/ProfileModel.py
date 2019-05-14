@@ -13,6 +13,7 @@ class ProfileModel(db.Model):
     size = db.Column(db.Integer, nullable=True)
     weight = db.Column(db.Integer, nullable=True)
     description = db.Column(db.String(128), nullable=True)
+    city = db.Column(db.String(128), nullable=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
@@ -24,6 +25,7 @@ class ProfileModel(db.Model):
         self.size = data.get('size')
         self.weight = data.get('weight')
         self.description = data.get('description')
+        self.city = data.get('city')
         self.user_id = user_id
         self.created_at = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
