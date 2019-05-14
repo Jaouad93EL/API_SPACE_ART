@@ -4,7 +4,7 @@ class Development(object):
     TESTING = False
     JWT_SECRET_KEY = "SpaceArt"
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = "postgres://postgres:j19991106@localhost:5432/SpaceArt?sslmode=disable"
+    SQLALCHEMY_DATABASE_URI = "postgres://postgres:j19991106@localhost:5433/SpaceArt?sslmode=disable"
 
 class Production(object):
     DEBUG = False
