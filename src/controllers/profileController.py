@@ -1,4 +1,4 @@
-from flask import request, json, Response, Blueprint, g
+from flask import request, Blueprint, g
 from ..models.ProfileModel import ProfileModel, ProfileSchema
 from ..models.UserModel import UserModel, UserSchema
 from src.jsonResponse import custom_response
