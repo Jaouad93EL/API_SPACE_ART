@@ -31,6 +31,7 @@ def update_profile():
         'size': ser_profile.get('size'),
         'weight': ser_profile.get('weight'),
         'description': ser_profile.get('description'),
+        'city': ser_profile.get('city'),
     }
     return custom_response({'successful': info_user}, 200)
 
@@ -43,7 +44,7 @@ def update_banner():
         return custom_response({'error': 'Is not a img/png file.'}, 400)
     profile = ProfileModel.get_one_profile(g.user.get('id'))
     ser_profile = profile_schema.dump(profile).data
-    if ser_profile.get('banner_name_storage') != "empty":
+    if ser_profile.get('banner_url') != "empty":
         google.delete_in_google("audio_space_art", str(g.user.get('id')), ser_profile.get('banner_name_storage'))
     url = google.store_in_google("audio_space_art", str(g.user.get('id')), banner_storage)
     profile.banner_profile(url, banner_storage.filename)
@@ -58,7 +59,7 @@ def update_picture():
         return custom_response({'error': 'Is not a img/png file.'}, 400)
     profile = ProfileModel.get_one_profile(g.user.get('id'))
     ser_profile = profile_schema.dump(profile).data
-    if ser_profile.get('picture_name_storage') != "empty":
+    if ser_profile.get('picture_url') != "empty":
         google.delete_in_google("audio_space_art", str(g.user.get('id')), ser_profile.get('picture_name_storage'))
     url = google.store_in_google("audio_space_art", str(g.user.get('id')), picture_storage)
     profile.picture_profile(url, picture_storage.filename)
@@ -77,6 +78,21 @@ def get_my_profile():
 @profile_api.route('/get_profile/<int:user_id>', methods=['GET'])
 def get_profile(user_id):
     profile = ProfileModel.get_one_profile(user_id)
-    if not profile: return custom_response({'error': 'Profile not found'}, 400)
+    user = UserModel.get_one_user(user_id)
+    if not profile or not user: return custom_response({'error': 'Profile not found'}, 400)
     ser_profile = profile_schema.dump(profile).data
-    return custom_response({'successful': ser_profile}, 200)
+    ser_user = user_schema.dump(user).data
+    info_user = {
+        'firstname': ser_user.get('firstname'),
+        'lastname': ser_user.get('lastname'),
+        'age': ser_profile.get('age'),
+        'size': ser_profile.get('size'),
+        'weight': ser_profile.get('weight'),
+        'description': ser_profile.get('description'),
+        'city': ser_profile.get('city'),
+        'picture_name_storage': ser_profile.get('picture_name_storage'),
+        'banner_name_storage': ser_profile.get('banner_name_storage'),
+        'picture_url': ser_profile.get('picture_url'),
+        'banner_url': ser_profile.get('banner_url')
+    }
+    return custom_response({'successful': info_user}, 200)
