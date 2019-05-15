@@ -30,8 +30,7 @@ def delete_in_google(bucket_name, id_rep, file_name):
     del_file.delete()
 
 def delete_user_google(user_id):
-    li = [
-        'audio_space_art', 'banner_space_art', 'picture_space_art', 'video_space_art']
+    li = ['audio_space_art', 'banner_space_art', 'picture_space_art', 'video_space_art']
     for l in li:
         bucket = storage_client.get_bucket(l)
         del_rep = bucket.blob(user_id + '/')
