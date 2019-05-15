@@ -48,10 +48,9 @@ def get_video_by_id_video(id_video):
     return custom_response({'error': 'Video not exist.'}, 400)
 
 
-@video_api.route('/get_all_video', methods=['GET'])
-@Auth.auth_required
-def get_video_all_video():
-    video_in_db = VideoModel.get_video_all(g.user.get('id'))
+@video_api.route('/get_all_video/<int:id_user>', methods=['GET'])
+def get_video_all_video(id_user):
+    video_in_db = VideoModel.get_video_all(id_user)
     if video_in_db:
         list_video = []
         [list_video.append(video_schema.dump(a).data) for a in video_in_db]

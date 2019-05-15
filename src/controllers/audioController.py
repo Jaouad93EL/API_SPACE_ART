@@ -12,7 +12,6 @@ audio_schema = AudioSchema()
 @Auth.auth_required
 def upload_audio():
     audio_storage = request.files.get('audio')
-    print (audio_storage.content_type)
     if not audio_storage or audio_storage.content_type != 'audio/mp3' and audio_storage.content_type != 'audio/mpeg':
         return custom_response({'error': 'Is not a mp3 file.'}, 400)
     req_data = request.form.to_dict()
@@ -49,10 +48,9 @@ def get_audio_by_id_audio(id_audio):
     return custom_response({'error': 'Audio not exist.'}, 400)
 
 
-@audio_api.route('/get_all_audio', methods=['GET'])
-@Auth.auth_required
-def get_audio_all_audio():
-    audio_in_db = AudioModel.get_audio_all(g.user.get('id'))
+@audio_api.route('/get_all_audio/<int:id_user>', methods=['GET'])
+def get_audio_all_audio(id_user):
+    audio_in_db = AudioModel.get_audio_all(id_user)
     if audio_in_db:
         list_audio = []
         [list_audio.append(audio_schema.dump(a).data) for a in audio_in_db]
