@@ -8,7 +8,6 @@ class Auth:
 
     @staticmethod
     def auth_required(func):
-
         @wraps(func)
         def decorated_auth(*args, **kwargs):
             if 'api-token' not in request.headers:
@@ -64,7 +63,6 @@ class Auth:
             finally:
                 e1 = None
                 del e1
-
         except jwt.InvalidTokenError:
             re['error'] = {'message': 'Invalid token, please try again with a new token.'}
             return re
