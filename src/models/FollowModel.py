@@ -46,3 +46,10 @@ class FollowSchema(Schema):
     user_id = fields.Int(required=False)
     created_at = fields.DateTime(dump_only=True)
     modified_at = fields.DateTime(dump_only=True)
+
+class MiniInfo:
+    def __init__(self, id, firstname, lastname, picture_url):
+        self.id = id
+        self.firstname = firstname
+        self.lastname = lastname
+        self.picture_url = picture_url

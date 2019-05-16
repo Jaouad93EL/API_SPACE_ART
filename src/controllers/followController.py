@@ -1,5 +1,5 @@
 from flask import Blueprint, g
-from ..models.FollowModel import FollowModel, FollowSchema
+from ..models.FollowModel import FollowModel, FollowSchema, MiniInfo
 from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
 follow_api = Blueprint('follow', __name__)
@@ -59,7 +59,11 @@ def all_following_user(user_id):
     following_in_db = FollowModel.get_all_following(user_id)
     if following_in_db:
         li = []
-        [li.append(follow_schema.dump(f).data.get('follow_id')) for f in following_in_db]
+        for f in following_in_db:
+            mini_user = follow_schema.dump(f)
+            m = MiniInfo(mini_user.data.get('follow_id'),mini_user.data.get('firstname'), mini_user.data.get('lastname'), mini_user.data.get('picture_url'))
+            li.append(m)
+        #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in following_in_db]
         return custom_response({'success': {'following': li}}, 200)
     else:
         return custom_response({'error': 'Empty.'}, 400)
@@ -70,7 +74,11 @@ def all_followers_user(user_id):
     followers_in_db = FollowModel.get_all_followers(user_id)
     if followers_in_db:
         li = []
-        [li.append(follow_schema.dump(f).data.get('follow_id')) for f in followers_in_db]
+        for f in followers_in_db:
+            mini_user = follow_schema.dump(f)
+            m = MiniInfo(mini_user.data.get('follow_id'),mini_user.data.get('firstname'), mini_user.data.get('lastname'), mini_user.data.get('picture_url'))
+            li.append(m)
+        #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in followers_in_db]
         return custom_response({'success': {'followers': li}}, 200)
     else:
         return custom_response({'error': 'Empty.'}, 400)
