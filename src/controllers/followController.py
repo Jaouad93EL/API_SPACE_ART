@@ -61,7 +61,10 @@ def all_following_user(user_id):
         li = []
         for f in following_in_db:
             mini_user = follow_schema.dump(f)
-            m = MiniInfo(mini_user.data.get('follow_id'),mini_user.data.get('firstname'), mini_user.data.get('lastname'), mini_user.data.get('picture_url'))
+            m = MiniInfo(mini_user.data.get('follow_id'),
+                         mini_user.data.get('firstname'),
+                         mini_user.data.get('lastname'),
+                         mini_user.data.get('picture_url'))
             li.append(m)
         #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in following_in_db]
         return custom_response({'success': {'following': li}}, 200)
@@ -76,7 +79,10 @@ def all_followers_user(user_id):
         li = []
         for f in followers_in_db:
             mini_user = follow_schema.dump(f)
-            m = MiniInfo(mini_user.data.get('follow_id'),mini_user.data.get('firstname'), mini_user.data.get('lastname'), mini_user.data.get('picture_url'))
+            m = MiniInfo(mini_user.data.get('follow_id'),
+                         mini_user.data.get('firstname'),
+                         mini_user.data.get('lastname'),
+                         mini_user.data.get('picture_url'))
             li.append(m)
         #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in followers_in_db]
         return custom_response({'success': {'followers': li}}, 200)
