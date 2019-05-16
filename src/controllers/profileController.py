@@ -47,8 +47,8 @@ def update_banner():
     profile = ProfileModel.get_one_profile(g.user.get('id'))
     ser_profile = profile_schema.dump(profile).data
     if ser_profile.get('banner_url') != "empty":
-        google.delete_in_google("audio_space_art", str(g.user.get('id')), ser_profile.get('banner_name_storage'))
-    url = google.store_in_google("audio_space_art", str(g.user.get('id')), banner_storage)
+        google.delete_in_google("banner_space_art", str(g.user.get('id')), ser_profile.get('banner_name_storage'))
+    url = google.store_in_google("banner_space_art", str(g.user.get('id')), banner_storage)
     profile.banner_profile(url, banner_storage.filename)
     return custom_response({'successful': {'url': urllib.parse.unquote(profile.banner_url)}}, 200)
 
@@ -62,8 +62,8 @@ def update_picture():
     profile = ProfileModel.get_one_profile(g.user.get('id'))
     ser_profile = profile_schema.dump(profile).data
     if ser_profile.get('picture_url') != "empty":
-        google.delete_in_google("audio_space_art", str(g.user.get('id')), ser_profile.get('picture_name_storage'))
-    url = google.store_in_google("audio_space_art", str(g.user.get('id')), picture_storage)
+        google.delete_in_google("picture_space_art", str(g.user.get('id')), ser_profile.get('picture_name_storage'))
+    url = google.store_in_google("picture_space_art", str(g.user.get('id')), picture_storage)
     profile.picture_profile(url, picture_storage.filename)
     return custom_response({'successful': {'url': urllib.parse.unquote(profile.picture_url)}}, 200)
 
