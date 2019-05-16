@@ -60,6 +60,15 @@ def all_followers():
         return custom_response({'error': 'Empty.'}, 400)
 
 
+@follow_api.route('/follow_or_not/<int:user_id>', methods=['GET'])
+@Auth.auth_required
+def follow_or_not(user_id):
+    follow_or_not_follow = FollowModel.get_follow(user_id, g.user.get('id'))
+    if follow_or_not_follow:
+        return custom_response('true', 200)
+    return custom_response('false', 200)
+
+
 @follow_api.route('/all_following_user/<int:user_id>', methods=['GET'])
 def all_following_user(user_id):
     following_in_db = FollowModel.get_all_following(user_id)
