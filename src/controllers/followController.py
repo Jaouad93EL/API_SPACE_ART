@@ -1,7 +1,7 @@
 import json
 
 from flask import Blueprint, g
-from ..models.FollowModel import FollowModel, FollowSchema, MiniInfo
+from ..models.FollowModel import FollowModel, FollowSchema
 from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
 follow_api = Blueprint('follow', __name__)
@@ -63,11 +63,13 @@ def all_following_user(user_id):
         li = []
         for f in following_in_db:
             mini_user = follow_schema.dump(f)
-            m = MiniInfo(mini_user.data.get('follow_id'),
-                         mini_user.data.get('firstname'),
-                         mini_user.data.get('lastname'),
-                         mini_user.data.get('picture_url'))
-            li.append(json.dumps(m))
+            m = {
+                'id_user': mini_user.data.get('follow_id'),
+                'firstname': mini_user.data.get('firstname'),
+                'lastname': mini_user.data.get('lastname'),
+                'picture_url': mini_user.data.get('picture_url')
+            }
+            li.append(m)
         #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in following_in_db]
         return custom_response({'success': {'following': li}}, 200)
     return custom_response({'error': 'Empty.'}, 400)
@@ -80,11 +82,13 @@ def all_followers_user(user_id):
         li = []
         for f in followers_in_db:
             mini_user = follow_schema.dump(f)
-            m = MiniInfo(mini_user.data.get('follow_id'),
-                         mini_user.data.get('firstname'),
-                         mini_user.data.get('lastname'),
-                         mini_user.data.get('picture_url'))
-            li.append(json.dumps(m))
+            m = {
+                'id_user': mini_user.data.get('follow_id'),
+                'firstname': mini_user.data.get('firstname'),
+                'lastname': mini_user.data.get('lastname'),
+                'picture_url': mini_user.data.get('picture_url')
+            }
+            li.append(m)
         #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in followers_in_db]
         return custom_response({'success': {'followers': li}}, 200)
     return custom_response({'error': 'Empty.'}, 400)
