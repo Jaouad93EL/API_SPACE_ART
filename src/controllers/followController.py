@@ -1,3 +1,5 @@
+import json
+
 from flask import Blueprint, g
 from ..models.FollowModel import FollowModel, FollowSchema, MiniInfo
 from src.jsonResponse import custom_response
@@ -65,11 +67,10 @@ def all_following_user(user_id):
                          mini_user.data.get('firstname'),
                          mini_user.data.get('lastname'),
                          mini_user.data.get('picture_url'))
-            li.append(m)
+            li.append(json.dumps(m))
         #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in following_in_db]
         return custom_response({'success': {'following': li}}, 200)
-    else:
-        return custom_response({'error': 'Empty.'}, 400)
+    return custom_response({'error': 'Empty.'}, 400)
 
 
 @follow_api.route('/all_followers_user/<int:user_id>', methods=['GET'])
@@ -83,8 +84,7 @@ def all_followers_user(user_id):
                          mini_user.data.get('firstname'),
                          mini_user.data.get('lastname'),
                          mini_user.data.get('picture_url'))
-            li.append(m)
+            li.append(json.dumps(m))
         #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in followers_in_db]
         return custom_response({'success': {'followers': li}}, 200)
-    else:
-        return custom_response({'error': 'Empty.'}, 400)
+    return custom_response({'error': 'Empty.'}, 400)
