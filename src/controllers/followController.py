@@ -1,13 +1,17 @@
-import json
-
 from flask import Blueprint, g
 from ..models.FollowModel import FollowModel, FollowSchema
+from ..models.ProfileModel import ProfileModel, ProfileSchema
+from ..models.UserModel import UserModel, UserSchema
 from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
+
 follow_api = Blueprint('follow', __name__)
 follow_schema = FollowSchema()
+profile_schema = ProfileSchema()
+user_schema = UserSchema()
 
-@follow_api.route('/newfollowing/<int:follow_id>', methods=['POST'])
+
+@follow_api.route('/newfollowing/<int:follow_id>', methods=['GET'])
 @Auth.auth_required
 def newfollowing(follow_id):
     follow = FollowModel.get_follow(follow_id, g.user.get('id'))
@@ -62,15 +66,16 @@ def all_following_user(user_id):
     if following_in_db:
         li = []
         for f in following_in_db:
-            mini_user = follow_schema.dump(f)
+            id_user = follow_schema.dump(f)
+            mini_profile = profile_schema.dump(ProfileModel.get_one_profile(id_user.data.get('follow_id')))
+            mini_user = user_schema.dump(UserModel.get_one_user(id_user.data.get('follow_id')))
             m = {
-                'id_user': mini_user.data.get('follow_id'),
+                'id_user': id_user.data.get('follow_id'),
                 'firstname': mini_user.data.get('firstname'),
                 'lastname': mini_user.data.get('lastname'),
-                'picture_url': mini_user.data.get('picture_url')
+                'picture_url': mini_profile.data.get('picture_url')
             }
             li.append(m)
-        #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in following_in_db]
         return custom_response({'success': {'following': li}}, 200)
     return custom_response({'error': 'Empty.'}, 400)
 
@@ -81,14 +86,15 @@ def all_followers_user(user_id):
     if followers_in_db:
         li = []
         for f in followers_in_db:
-            mini_user = follow_schema.dump(f)
+            id_user = follow_schema.dump(f)
+            mini_profile = profile_schema.dump(ProfileModel.get_one_profile(id_user.data.get('follow_id')))
+            mini_user = user_schema.dump(UserModel.get_one_user(id_user.data.get('follow_id')))
             m = {
-                'id_user': mini_user.data.get('follow_id'),
+                'id_user': id_user.data.get('follow_id'),
                 'firstname': mini_user.data.get('firstname'),
                 'lastname': mini_user.data.get('lastname'),
-                'picture_url': mini_user.data.get('picture_url')
+                'picture_url': mini_profile.data.get('picture_url')
             }
             li.append(m)
-        #[li.append(follow_schema.dump(f).data.get('follow_id')) for f in followers_in_db]
         return custom_response({'success': {'followers': li}}, 200)
     return custom_response({'error': 'Empty.'}, 400)
