@@ -5,7 +5,7 @@ from . import db
 class NewsfeedModel(db.Model):
     __tablename__ = 'newsfeed'
     id = db.Column(db.Integer, primary_key=True)
-    text = db.Column(db.String(128), nullable=False)
+    type = db.Column(db.String(128), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
