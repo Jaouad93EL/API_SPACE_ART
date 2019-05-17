@@ -14,7 +14,7 @@ user_schema = UserSchema()
 @follow_api.route('/newfollowing/<int:follow_id>', methods=['GET'])
 @Auth.auth_required
 def newfollowing(follow_id):
-    follow = FollowModel.get_follow(follow_id, g.user.get('id'))
+    follow = FollowModel.get_follow(g.user.get('id'), follow_id)
     if follow or g.user.get('id') == follow_id:
         return custom_response({'error': 'Follow failed.'}, 400)
     else:

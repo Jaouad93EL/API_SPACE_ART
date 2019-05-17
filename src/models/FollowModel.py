@@ -30,11 +30,11 @@ class FollowModel(db.Model):
 
     @staticmethod
     def get_all_following(user_id):
-        return (FollowModel.query.filter_by(user_id=user_id)).all()
+        return (FollowModel.query.filter_by(follow_id=user_id)).all()
 
     @staticmethod
     def get_all_followers(user_id):
-        return (FollowModel.query.filter_by(follow_id=user_id)).all()
+        return (FollowModel.query.filter_by(user_id=user_id)).all()
 
     def __repr(self):
         return '<id {}>'.format(self.id)
