@@ -100,9 +100,9 @@ def all_followers_user(user_id):
             mini_user = user_schema.dump(UserModel.get_one_user(id_user.data.get('follow_id')))
             m = {
                 'id_user': id_user.data.get('follow_id'),
-                'firstname': mini_user.data.get('firstname'),
-                'lastname': mini_user.data.get('lastname'),
-                'picture_url': mini_profile.data.get('picture_url')
+                'firstname': mini_profile.data.get('firstname'),
+                'lastname': mini_profile.data.get('lastname'),
+                'picture_url': mini_user.data.get('picture_url')
             }
             li.append(m)
         return custom_response({'success': {'followers': li}}, 200)
