@@ -76,10 +76,10 @@ def all_following_user(user_id):
         li = []
         for f in following_in_db:
             id_user = follow_schema.dump(f)
-            mini_profile = profile_schema.dump(ProfileModel.get_one_profile(id_user.data.get('follow_id')))
-            mini_user = user_schema.dump(UserModel.get_one_user(id_user.data.get('follow_id')))
+            mini_profile = profile_schema.dump(ProfileModel.get_one_profile(id_user.data.get('user_id')))
+            mini_user = user_schema.dump(UserModel.get_one_user(id_user.data.get('user_id')))
             m = {
-                'id_user': id_user.data.get('follow_id'),
+                'id_user': id_user.data.get('user_id'),
                 'firstname': mini_user.data.get('firstname'),
                 'lastname': mini_user.data.get('lastname'),
                 'picture_url': mini_profile.data.get('picture_url')
@@ -99,7 +99,7 @@ def all_followers_user(user_id):
             mini_profile = profile_schema.dump(ProfileModel.get_one_profile(id_user.data.get('follow_id')))
             mini_user = user_schema.dump(UserModel.get_one_user(id_user.data.get('follow_id')))
             m = {
-                'id_user': id_user.data.get('user_id'),
+                'id_user': id_user.data.get('follow_id'),
                 'firstname': mini_user.data.get('firstname'),
                 'lastname': mini_user.data.get('lastname'),
                 'picture_url': mini_profile.data.get('picture_url')
