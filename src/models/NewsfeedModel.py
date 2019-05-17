@@ -6,12 +6,14 @@ class NewsfeedModel(db.Model):
     __tablename__ = 'newsfeed'
     id = db.Column(db.Integer, primary_key=True)
     type = db.Column(db.String(128), nullable=False)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=True)
+    post_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
 
-    def __init__(self, data, user_id):
-        self.text = data.get('text')
+    def __init__(self, type, post_id, user_id):
+        self.type = type
+        self.post_id = post_id
         self.user_id = user_id
         self.created_at = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
@@ -38,7 +40,8 @@ class NewsfeedModel(db.Model):
 
 class NewsfeedSchema(Schema):
     id = fields.Int(dump_only=True)
-    text = fields.Str(required=True)
+    type = fields.Str(required=True)
+    post_id = fields.Int(required=True)
     user_id = fields.Int(required=True)
     created_at = fields.DateTime(dump_only=True)
     modified_at = fields.DateTime(dump_only=True)

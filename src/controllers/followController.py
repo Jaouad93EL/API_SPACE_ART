@@ -18,7 +18,7 @@ def newfollowing(follow_id):
     if follow or g.user.get('id') == follow_id:
         return custom_response({'error': 'Follow failed.'}, 400)
     else:
-        follow = FollowModel(follow_id, g.user.get('id'))
+        follow = FollowModel(g.user.get('id'), follow_id)
         follow.save()
         return custom_response({'success': 'New Follow.'}, 200)
 
