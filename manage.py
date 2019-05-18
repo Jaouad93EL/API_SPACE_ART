@@ -6,6 +6,7 @@ from src.models import ProfileModel
 from src.models import FollowModel
 from src.models import AudioModel
 from src.models import VideoModel
+from src.models import NewsfeedModel
 from src.models import RevokedTokenModel
 
 
@@ -14,6 +15,7 @@ p = ProfileModel
 f = FollowModel
 a = AudioModel
 v = VideoModel
+n = NewsfeedModel
 r = RevokedTokenModel
 
 app = create_app()
