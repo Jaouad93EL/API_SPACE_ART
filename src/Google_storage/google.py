@@ -1,5 +1,6 @@
 from google.cloud import storage
 from google.oauth2 import service_account
+from requests_oauthlib import OAuth2Session
 
 google_config = {
     "type": "service_account",
@@ -14,9 +15,29 @@ google_config = {
     "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spaceart%40spaceart-238712.iam.gserviceaccount.com"
 }
 
+CLIENT_ID = '354503433014-dt8bat8cgaosk5ci76qquc13vgv2ofb9.apps.googleusercontent.com'
+CLIENT_SECRET = 'JslKPgWYdc-sHwXD1Rla784y'
+REDIRECT_URI = 'https://127.0.0.1:5000/api/users/gCallback'
+AUTH_URI = 'https://accounts.google.com/o/oauth2/auth'
+TOKEN_URI = 'https://accounts.google.com/o/oauth2/token'
+USER_INFO = 'https://www.googleapis.com/userinfo/v2/me'
+SCOPE = ['profile', 'email']
+
 project_id = 'spaceart-238712'
 storage_credentials = service_account.Credentials.from_service_account_info(google_config)
 storage_client = storage.Client(project=project_id, credentials=storage_credentials)
+
+def get_google_auth(state=None, token=None):
+    if token: return OAuth2Session(CLIENT_ID, token=token)
+    if state: return OAuth2Session(
+        CLIENT_ID,
+        state=state,
+        redirect_uri=REDIRECT_URI)
+    your_oauth = OAuth2Session(
+        CLIENT_ID,
+        redirect_uri=REDIRECT_URI,
+        scope=SCOPE)
+    return your_oauth
 
 def store_in_google(bucket_name, id_rep, file):
     bucket = storage_client.get_bucket(bucket_name)

@@ -119,6 +119,34 @@ def login():
     return custom_response(info_user, 200)
 
 
+@user_api.route('/google_login', methods=['POST'])
+def google_login():
+    google = get_google_auth(token=token)
+    resp = google.get(Development.USER_INFO)
+    if resp.status_code == 200:
+        user_data = resp.json()
+        data = {
+            'firstname': user_data['family_name'],
+
+        }
+        #data["fileStorage_key"] = randomstring(10)
+        data["name"] = user_data['family_name']
+        data["social_id"] = user_data['id']
+        data["social"] = "google"
+        data["email"] = user_data['email']
+        data["photo"] = user_data['picture']
+        data["password"] = None
+        user_in_db = UserModel.get_user_by_social_id(user_data['id'])
+        if user_in_db:
+            token = Auth.generate_token(user_social.dump(user_in_db).data.get('id'))
+            return custom_response(token)
+        user = UserModel(data)
+        user.save()
+        token = Auth.generate_token(user_schema.dump(user).data.get('id'))
+        return custom_response(token)
+    return custom_response("Unauthorized, Could not fetch your information.", 400)
+
+
 @user_api.route('/logout', methods=['DELETE'])
 @Auth.auth_required
 def logout():
