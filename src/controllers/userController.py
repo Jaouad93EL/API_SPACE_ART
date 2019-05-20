@@ -18,7 +18,7 @@ def create():
     if error:
         return custom_response(error, 400)
     user_in_db = UserModel.get_user_by_email(data.get('email'))
-    if user_in_db or data.get('email') == 'kenzazerouali00@gmail.com':
+    if user_in_db or data.get('email') == google.google_unauthorized:
         return custom_response({'error': 'User already exist, please supply another email address'}, 400)
     user = UserModel(data, 0)
     user.save()

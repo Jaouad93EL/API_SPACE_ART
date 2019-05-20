@@ -24,6 +24,7 @@ USER_INFO = 'https://www.googleapis.com/userinfo/v2/me'
 SCOPE = ['profile', 'email']
 
 project_id = 'spaceart-238712'
+google_unauthorized = 'kenzazerouali00@gmail.com'
 storage_credentials = service_account.Credentials.from_service_account_info(google_config)
 storage_client = storage.Client(project=project_id, credentials=storage_credentials)
 
