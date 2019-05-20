@@ -66,7 +66,7 @@ class UserModel(db.Model):
 
     @staticmethod
     def info_user(user, token):
-        ser_data = UserSchema.dump(user).data
+        ser_data = UserSchema().dump(user).data
         info = {
             'jwt_token': token,
             'id_user': ser_data.get('id'),
