@@ -101,7 +101,7 @@ def login():
     if error:
         return custom_response(error, 400)
     if not data.get('email') or not data.get('password'):
-        return custom_response({'error': 'you need email and password to sign in'}, 400)
+        return custom_response({'error': 'You need email and password to sign in'}, 400)
     user = UserModel.get_user_by_email(data.get('email'))
     if not user:
         return custom_response({'error': 'invalid credentials'}, 400)
