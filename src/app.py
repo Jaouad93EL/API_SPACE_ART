@@ -10,7 +10,6 @@ from .controllers.audioController import audio_api as audio_blueprint
 from .controllers.videoController import video_api as video_blueprint
 
 
-
 def create_app():
     app = Flask(__name__)
     CORS(app)
@@ -24,7 +23,7 @@ def create_app():
     app.register_blueprint(audio_blueprint, url_prefix='/api/audio')
     app.register_blueprint(video_blueprint, url_prefix='/api/video')
     app.register_blueprint(profile_blueprint, url_prefix='/api/profile')
-    # -----------------------------------route------------------------------------#
+    # -----------------------------------route-----------------------------------#
 
     @app.route('/', methods=['GET'])
     def ac():

@@ -109,7 +109,7 @@ def login():
         return custom_response({'error': 'invalid credentials'}, 400)
     if not user.check_hash(data.get('password')):
         return custom_response({'error': 'invalid credentials'}, 400)
-    return custom_response(UserModel.info_user(user), 200)
+    return custom_response(UserModel.info_user(user, UserSchema.dump(user).get('id')), 200)
 
 
 @user_api.route('/google_login', methods=['POST'])
@@ -134,7 +134,7 @@ def google_login():
         profile = ProfileModel({}, user.id)
         profile.picture_profile(data.get('picture'), "empty")
         profile.save()
-        return custom_response(UserModel.info_user(user), 200)
+        return custom_response(UserModel.info_user(user, UserSchema.dump(user).get('id')), 200)
     return custom_response("Unauthorized, Could not fetch your information.", 400)
 
 

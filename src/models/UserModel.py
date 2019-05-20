@@ -1,7 +1,6 @@
 import datetime
 from marshmallow import fields, Schema
 from . import db
-from ..shared.Authentication import Auth
 from ..app import bcrypt
 
 class UserModel(db.Model):
@@ -66,9 +65,8 @@ class UserModel(db.Model):
         return UserModel.query.filter_by(email=email).first()
 
     @staticmethod
-    def info_user(user):
+    def info_user(user, token):
         ser_data = UserSchema.dump(user).data
-        token = Auth.generate_token(ser_data.data.get('id'))
         info = {
             'jwt_token': token,
             'id_user': ser_data.get('id'),
