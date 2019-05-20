@@ -1,7 +1,8 @@
 from flask import Flask, request
 from flask_cors import CORS
-from .config import app_config
+from . import config
 from .models import db, bcrypt
+from flask_mail import Mail, Message
 from src.jsonResponse import custom_response
 from .controllers.userController import user_api as user_blueprint
 from .controllers.followController import follow_api as follow_blueprint
@@ -12,18 +13,19 @@ from .controllers.videoController import video_api as video_blueprint
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
-    app.config.from_object(app_config['development'])
-    bcrypt.init_app(app)
-    db.init_app(app)
     app.config['MAIL_SERVER'] = 'elhorm_j@etna-alternance.com'
     app.config['MAIL_PORT'] = 465
     app.config['MAIL_USERNAME'] = 'SpaceArt'
     app.config['MAIL_PASSWORD'] = 'SpaceArt'
     app.config['MAIL_USE_TLS'] = False
     app.config['MAIL_USE_SSL'] = True
+    config.send_mail = Mail(app)
+    CORS(app)
+    app.config.from_object(config.app_config['development'])
+    bcrypt.init_app(app)
+    db.init_app(app)
 
-    #-----------------------------------route------------------------------------#
+    #------------------------------------route-----------------------------------#
     app.register_blueprint(user_blueprint, url_prefix='/api/users')
     app.register_blueprint(follow_blueprint, url_prefix='/api/follow')
     app.register_blueprint(audio_blueprint, url_prefix='/api/audio')

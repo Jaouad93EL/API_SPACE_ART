@@ -1,5 +1,4 @@
 from flask import request, Blueprint, g
-from flask_mail import Mail, Message
 from ..models.UserModel import UserModel, UserSchema
 from ..models.ProfileModel import ProfileModel
 from ..models.RevokedTokenModel import RevokedTokenModel

@@ -14,6 +14,8 @@ class Production(object):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
+send_mail = None
+
 app_config = {
     'development': Development,
     'production': Production,
