@@ -132,9 +132,8 @@ def google_login():
         user.save()
         print("user_id_create_google", user.id)
         profile = ProfileModel({}, user.id)
-        profile.picture_profile(data.get('picture'), data.get('picture'))
+        profile.picture_profile(data.get('picture'), "empty")
         profile.save()
-
         return custom_response(UserModel.info_user(user), 200)
     return custom_response("Unauthorized, Could not fetch your information.", 400)
 
