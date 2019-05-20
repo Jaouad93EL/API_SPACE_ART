@@ -132,11 +132,11 @@ def google_login():
             return custom_response(UserModel.info_user(user_in_db, token), 200)
         user = UserModel(data, 1)
         user.save()
-        print("user_id_create_google", user.id)
         profile = ProfileModel({}, user.id)
         profile.picture_profile(data.get('picture'), "empty")
         profile.save()
-        return custom_response(UserModel.info_user(user, user_schema.dump(user).data.get('id')), 200)
+        token = Auth.generate_token(user_schema.dump(user).data.get('id'))
+        return custom_response(UserModel.info_user(user, token), 200)
     return custom_response("Unauthorized, Could not fetch your information.", 400)
 
 
