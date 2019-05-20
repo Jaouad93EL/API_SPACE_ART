@@ -1,8 +1,9 @@
 from functools import wraps
 from flask import json, Response, request, g
-import jwt, datetime
 from ..models.UserModel import UserModel
 from ..models.RevokedTokenModel import RevokedTokenModel
+import datetime
+import jwt
 
 class Auth:
 
