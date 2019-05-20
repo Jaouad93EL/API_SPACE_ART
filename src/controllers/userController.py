@@ -109,7 +109,8 @@ def login():
         return custom_response({'error': 'invalid credentials'}, 400)
     if not user.check_hash(data.get('password')):
         return custom_response({'error': 'invalid credentials'}, 400)
-    return custom_response(UserModel.info_user(user, UserSchema.dump(user).get('id')), 200)
+    token = Auth.generate_token(UserSchema.dump(user).get('id'))
+    return custom_response(UserModel.info_user(user, token), 200)
 
 
 @user_api.route('/google_login', methods=['POST'])
@@ -127,7 +128,8 @@ def google_login():
         }
         user_in_db = UserModel.get_user_by_email(data['email'])
         if user_in_db:
-            return custom_response(UserModel.info_user(user_in_db), 200)
+            token = Auth.generate_token(UserSchema.dump(user_in_db).get('id'))
+            return custom_response(UserModel.info_user(user_in_db, token), 200)
         user = UserModel(data, 1)
         user.save()
         print("user_id_create_google", user.id)
