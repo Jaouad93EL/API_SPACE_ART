@@ -105,11 +105,11 @@ def login():
     user = UserModel.get_user_by_email(data.get('email'))
     if not user:
         return custom_response({'error': 'invalid credentials'}, 400)
-    if UserSchema.dump(user).get('social_id') == 1:
+    if user_schema.dump(user).get('social_id') == 1:
         return custom_response({'error': 'invalid credentials'}, 400)
     if not user.check_hash(data.get('password')):
         return custom_response({'error': 'invalid credentials'}, 400)
-    token = Auth.generate_token(UserSchema.dump(user).get('id'))
+    token = Auth.generate_token(user_schema.dump(user).get('id'))
     return custom_response(UserModel.info_user(user, token), 200)
 
 
@@ -128,7 +128,7 @@ def google_login():
         }
         user_in_db = UserModel.get_user_by_email(data['email'])
         if user_in_db:
-            token = Auth.generate_token(UserSchema.dump(user_in_db).get('id'))
+            token = Auth.generate_token(user_schema.dump(user_in_db).get('id'))
             return custom_response(UserModel.info_user(user_in_db, token), 200)
         user = UserModel(data, 1)
         user.save()
@@ -136,7 +136,7 @@ def google_login():
         profile = ProfileModel({}, user.id)
         profile.picture_profile(data.get('picture'), "empty")
         profile.save()
-        return custom_response(UserModel.info_user(user, UserSchema.dump(user).get('id')), 200)
+        return custom_response(UserModel.info_user(user, user_schema.dump(user).get('id')), 200)
     return custom_response("Unauthorized, Could not fetch your information.", 400)
 
 
