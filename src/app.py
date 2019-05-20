@@ -17,6 +17,7 @@ def create_app():
     app.config.from_object(app_config['development'])
     bcrypt.init_app(app)
     db.init_app(app)
+
     #-----------------------------------route------------------------------------#
     app.register_blueprint(user_blueprint, url_prefix='/api/users')
     app.register_blueprint(follow_blueprint, url_prefix='/api/follow')
@@ -36,6 +37,6 @@ def create_app():
             temp = request.url_root
             new, url_root = list(rule.methods), temp.rsplit('/', 1)
             method = [x for x in new if x != 'OPTIONS' and x != 'HEAD']
-            links[count], count = {"Method": method[0], "url": url_root[0]+str(rule)}, count+1
+            links[count], count = {"Method": method[0], "url": url_root[0]+str(rule)}, count + 1
         return custom_response(links, 200)
     return app
