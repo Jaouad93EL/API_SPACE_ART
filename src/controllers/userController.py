@@ -1,4 +1,5 @@
 from flask import request, Blueprint, g
+from flask_mail import Mail, Message
 from ..models.UserModel import UserModel, UserSchema
 from ..models.ProfileModel import ProfileModel
 from ..models.RevokedTokenModel import RevokedTokenModel
@@ -9,7 +10,6 @@ from ..Google_storage import google
 
 user_api = Blueprint('users', __name__)
 user_schema = UserSchema()
-
 
 @user_api.route('/create', methods=['POST'])
 def create():

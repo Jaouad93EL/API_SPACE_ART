@@ -16,6 +16,12 @@ def create_app():
     app.config.from_object(app_config['development'])
     bcrypt.init_app(app)
     db.init_app(app)
+    app.config['MAIL_SERVER'] = 'elhorm_j@etna-alternance.com'
+    app.config['MAIL_PORT'] = 465
+    app.config['MAIL_USERNAME'] = 'SpaceArt'
+    app.config['MAIL_PASSWORD'] = 'SpaceArt'
+    app.config['MAIL_USE_TLS'] = False
+    app.config['MAIL_USE_SSL'] = True
 
     #-----------------------------------route------------------------------------#
     app.register_blueprint(user_blueprint, url_prefix='/api/users')
