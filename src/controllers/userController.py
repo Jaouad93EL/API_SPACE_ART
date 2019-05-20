@@ -145,4 +145,4 @@ def google_login():
 def logout():
     revoked_token = RevokedTokenModel(request.headers['api-token'])
     revoked_token.save()
-    return custom_response({'message': 'Access token has been revoked'}, 200)
+    return custom_response({'message': 'Access token has been revoked.'}, 200)
