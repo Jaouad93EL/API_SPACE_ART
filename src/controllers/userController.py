@@ -20,7 +20,7 @@ def create():
     user_in_db = UserModel.get_user_by_email(data.get('email'))
     if user_in_db:
         return custom_response({'error': 'User already exist, please supply another email address'}, 400)
-    user = UserModel(data)
+    user = UserModel(data, 0)
     user.save()
     profile = ProfileModel({}, user.id)
     profile.save()
@@ -105,45 +105,37 @@ def login():
     user = UserModel.get_user_by_email(data.get('email'))
     if not user:
         return custom_response({'error': 'invalid credentials'}, 400)
+    if UserSchema.dump(user).get('social_id') == 1:
+        return custom_response({'error': 'invalid credentials'}, 400)
     if not user.check_hash(data.get('password')):
         return custom_response({'error': 'invalid credentials'}, 400)
-    ser_data = user_schema.dump(user).data
-    token = Auth.generate_token(ser_data.get('id'))
-    info_user = {
-        'jwt_token': token,
-        'id_user': ser_data.get('id'),
-        'firstname': ser_data.get('firstname'),
-        'lastname': ser_data.get('lastname'),
-        'email': ser_data.get('email')
-    }
-    return custom_response(info_user, 200)
+    return custom_response(UserModel.info_user(user), 200)
 
 
 @user_api.route('/google_login', methods=['POST'])
 def google_login():
-    google = get_google_auth(token=token)
-    resp = google.get(Development.USER_INFO)
+    google_auth = google.get_google_auth(token=request.get_json())
+    resp = google_auth.get(google.USER_INFO)
     if resp.status_code == 200:
         user_data = resp.json()
         data = {
-            'firstname': user_data['family_name'],
-
+            'firstname': user_data['given_name'],
+            'lastname': user_data['family_name'],
+            'email': user_data['email'],
+            'picture': user_data['picture'],
+            'password': 'google_auth'
         }
-        #data["fileStorage_key"] = randomstring(10)
-        data["name"] = user_data['family_name']
-        data["social_id"] = user_data['id']
-        data["social"] = "google"
-        data["email"] = user_data['email']
-        data["photo"] = user_data['picture']
-        data["password"] = None
-        user_in_db = UserModel.get_user_by_social_id(user_data['id'])
+        user_in_db = UserModel.get_user_by_email(data['email'])
         if user_in_db:
-            token = Auth.generate_token(user_social.dump(user_in_db).data.get('id'))
-            return custom_response(token)
-        user = UserModel(data)
+            return custom_response(UserModel.info_user(user_in_db), 200)
+        user = UserModel(data, 1)
         user.save()
-        token = Auth.generate_token(user_schema.dump(user).data.get('id'))
-        return custom_response(token)
+        print("user_id_create_google", user.id)
+        profile = ProfileModel({}, user.id)
+        profile.picture_profile(data.get('picture'), data.get('picture'))
+        profile.save()
+
+        return custom_response(UserModel.info_user(user), 200)
     return custom_response("Unauthorized, Could not fetch your information.", 400)
 
 

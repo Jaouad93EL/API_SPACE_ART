@@ -5,10 +5,10 @@ from . import db
 class ProfileModel(db.Model):
     __tablename__ = 'profile'
     id = db.Column(db.Integer, primary_key=True)
-    picture_name_storage = db.Column(db.String(128), nullable=True)
-    banner_name_storage = db.Column(db.String(128), nullable=True)
-    picture_url = db.Column(db.String(128), nullable=True)
-    banner_url = db.Column(db.String(128), nullable=True)
+    picture_name_storage = db.Column(db.String(255), nullable=True)
+    banner_name_storage = db.Column(db.String(255), nullable=True)
+    picture_url = db.Column(db.String(255), nullable=True)
+    banner_url = db.Column(db.String(255), nullable=True)
     age = db.Column(db.Integer, nullable=True)
     size = db.Column(db.Integer, nullable=True)
     weight = db.Column(db.Integer, nullable=True)
