@@ -12,8 +12,8 @@ def login_success(template, email, keys=None):
     msg = Message('Remerciement', sender='elhorm_j@etna-alternance.net', recipients=[email])
     if keys: msg.html = render_template(template, message=message, message_key=message_key)
     else: msg.html = render_template(template, message=message)
-    mail.send(msg)
-
+    try: mail.send(msg); return 1
+    except socket.gaierror: return 0
 
 def reset_password(template, keys, email):
     msg = Message('Changement de Mot de Passe', sender='elhorm_j@etna-alternance.net', recipients=[email])

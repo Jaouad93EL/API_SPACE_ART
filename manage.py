@@ -1,13 +1,13 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
-from src import create_app, db
-from src import UserModel
-from src import ProfileModel
-from src import FollowModel
-from src import AudioModel
-from src import VideoModel
-from src import NewsfeedModel
-from src import RevokedTokenModel
+from src.app import create_app, db
+from src.models import UserModel
+from src.models import ProfileModel
+from src.models import FollowModel
+from src.models import AudioModel
+from src.models import VideoModel
+from src.models import NewsfeedModel
+from src.models import RevokedTokenModel
 
 
 u = UserModel

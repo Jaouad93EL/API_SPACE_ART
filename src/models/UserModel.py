@@ -12,6 +12,7 @@ class UserModel(db.Model):
     password = db.Column(db.String(128), nullable=False)
     social_id = db.Column(db.Integer, nullable=True)
     right = db.Column(db.Integer, nullable=True)
+    mail_validate = db.Column(db.Integer, nullable=True)
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
 
@@ -22,6 +23,7 @@ class UserModel(db.Model):
         self.password = self.__generate_hash(data.get('password'))
         self.social_id = social_id
         self.right = 0
+        self.mail_validate = 1
         self.created_at = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
 
@@ -86,6 +88,7 @@ class UserSchema(Schema):
     email = fields.Email(required=True)
     password = fields.Str(required=True)
     right = fields.Int(required=False)
+    mail_validate = fields.Int(required=False)
     social_id = fields.Int(required=False)
     created_at = fields.DateTime(dump_only=True)
     modified_at = fields.DateTime(dump_only=True)
