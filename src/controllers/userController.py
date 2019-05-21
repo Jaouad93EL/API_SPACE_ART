@@ -3,7 +3,7 @@ from .mailController import login_success,randomString
 from ..models.UserModel import UserModel, UserSchema
 from ..models.ProfileModel import ProfileModel
 from ..models.RevokedTokenModel import RevokedTokenModel
-from src import custom_response
+from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
 from ..Google_storage import google
 

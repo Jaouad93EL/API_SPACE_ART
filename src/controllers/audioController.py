@@ -1,5 +1,5 @@
 from flask import request, Blueprint, g
-from src import custom_response
+from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
 from ..Google_storage import google
 import urllib.parse

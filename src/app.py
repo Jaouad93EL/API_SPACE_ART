@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 from . import config
-from .models import db, bcrypt
+from .models import db, bcrypt, mail
 from flask_mail import Mail
 from src.jsonResponse import custom_response
 from .controllers.userController import user_api as user_blueprint
