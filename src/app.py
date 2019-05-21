@@ -2,7 +2,7 @@ from flask import Flask, request
 from flask_cors import CORS
 from . import config
 from .models import db, bcrypt
-from flask_mail import Mail, Message
+from flask_mail import Mail
 from src.jsonResponse import custom_response
 from .controllers.userController import user_api as user_blueprint
 from .controllers.followController import follow_api as follow_blueprint
@@ -10,6 +10,7 @@ from .controllers.profileController import profile_api as profile_blueprint
 from .controllers.audioController import audio_api as audio_blueprint
 from .controllers.videoController import video_api as video_blueprint
 
+mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -19,6 +20,7 @@ def create_app():
     app.config.from_object(config.app_config['development'])
     bcrypt.init_app(app)
     db.init_app(app)
+    mail.init_app(app)
 
     #------------------------------------route-----------------------------------#
     app.register_blueprint(user_blueprint, url_prefix='/api/users')
