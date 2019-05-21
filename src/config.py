@@ -1,3 +1,6 @@
+from flask_mail import Mail
+
+
 class Development(object):
     DEBUG = True
     TESTING = False
@@ -20,6 +23,7 @@ MAIL_USERNAME = 'elhorm_j@etna-alternance.net'
 MAIL_PASSWORD = 'j19991106'
 MAIL_USE_TLS = False
 MAIL_USE_SSL = True
+mail = Mail()
 
 app_config = {
     'development': Development,

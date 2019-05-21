@@ -10,7 +10,6 @@ from .controllers.profileController import profile_api as profile_blueprint
 from .controllers.audioController import audio_api as audio_blueprint
 from .controllers.videoController import video_api as video_blueprint
 
-mail = Mail()
 
 def create_app():
     app = Flask(__name__)
@@ -20,7 +19,7 @@ def create_app():
     app.config.from_object(config.app_config['development'])
     bcrypt.init_app(app)
     db.init_app(app)
-    mail.init_app(app)
+    config.mail.init_app(app)
 
     #------------------------------------route-----------------------------------#
     app.register_blueprint(user_blueprint, url_prefix='/api/users')
