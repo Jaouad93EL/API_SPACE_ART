@@ -2,7 +2,7 @@ from flask import Blueprint, g
 from ..models.FollowModel import FollowModel, FollowSchema
 from ..models.ProfileModel import ProfileModel, ProfileSchema
 from ..models.UserModel import UserModel, UserSchema
-from src.jsonResponse import custom_response
+from src import custom_response
 from ..shared.Authentication import Auth
 
 follow_api = Blueprint('follow', __name__)

@@ -1,6 +1,6 @@
 from flask import render_template
 from flask_mail import Message
-from ..app import mail
+from ..models import mail
 import socket
 import random
 import string

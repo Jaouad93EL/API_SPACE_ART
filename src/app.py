@@ -9,7 +9,6 @@ from .controllers.followController import follow_api as follow_blueprint
 from .controllers.profileController import profile_api as profile_blueprint
 from .controllers.audioController import audio_api as audio_blueprint
 from .controllers.videoController import video_api as video_blueprint
-from src import mail
 
 def create_app():
     app = Flask(__name__)
