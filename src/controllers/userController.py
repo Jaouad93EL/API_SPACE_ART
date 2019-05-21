@@ -20,11 +20,13 @@ def create():
     user_in_db = UserModel.get_user_by_email(data.get('email'))
     if user_in_db or data.get('email') == google.google_unauthorized:
         return custom_response({'error': 'User already exist, please supply another email address'}, 400)
+    mail_exist = login_success('../template/login.html', data.get('email'), randomString(4))
+    if mail_exist == 0:
+        return custom_response({'error': 'Email address not found'}, 400)
     user = UserModel(data, 0)
     user.save()
     profile = ProfileModel({}, user.id)
     profile.save()
-    login_success('../template/login.html', data.get('email'), randomString(4))
     return custom_response({'success': 'User created'}, 201)
 
 
