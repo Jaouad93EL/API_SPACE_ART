@@ -24,7 +24,7 @@ def create():
     user.save()
     profile = ProfileModel({}, user.id)
     profile.save()
-    login_success()
+    login_success('../template/login.html', data.get('email'))
     return custom_response({'success': 'User created'}, 201)
 
 
