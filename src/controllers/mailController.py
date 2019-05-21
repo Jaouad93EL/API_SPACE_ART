@@ -2,6 +2,8 @@ from flask import render_template
 from flask_mail import Message
 from ..app import mail
 import socket
+import random
+import string
 
 
 def login_success(template, email, keys=None):
@@ -35,3 +37,7 @@ def password_updated(template, email):
         return 1
     except socket.gaierror:
         return 0
+
+def randomString(stringLength=4):
+    letters = string.ascii_lowercase
+    return ''.join(random.choice(letters) for i in range(stringLength))
