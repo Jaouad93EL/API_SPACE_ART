@@ -1,10 +1,9 @@
 from flask import render_template
 from flask_mail import Message
-from ..config import mail
+from ..app import mail
 import socket
 import random
 import string
-
 
 def login_success(template, email, keys=None):
     message = "Nous vous remercions pour votre confiance," \
@@ -13,8 +12,7 @@ def login_success(template, email, keys=None):
     msg = Message('Remerciement', sender='elhorm_j@etna-alternance.net', recipients=[email])
     if keys: msg.html = render_template(template, message=message, message_key=message_key)
     else: msg.html = render_template(template, message=message)
-    try: mail.send(msg); return 1
-    except socket.gaierror: return 0
+    mail.send(msg)
 
 
 def reset_password(template, keys, email):
