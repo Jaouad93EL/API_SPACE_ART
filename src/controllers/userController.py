@@ -1,4 +1,5 @@
 from flask import request, Blueprint, g
+from .mailController import login_success, reset_password, password_updated
 from ..models.UserModel import UserModel, UserSchema
 from ..models.ProfileModel import ProfileModel
 from ..models.RevokedTokenModel import RevokedTokenModel
@@ -23,6 +24,7 @@ def create():
     user.save()
     profile = ProfileModel({}, user.id)
     profile.save()
+    login_success()
     return custom_response({'success': 'User created'}, 201)
 
 
