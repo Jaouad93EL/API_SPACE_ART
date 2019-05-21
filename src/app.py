@@ -13,12 +13,7 @@ from .controllers.videoController import video_api as video_blueprint
 
 def create_app():
     app = Flask(__name__)
-    app.config['MAIL_SERVER'] = 'elhorm_j@etna-alternance.com'
-    app.config['MAIL_PORT'] = 465
-    app.config['MAIL_USERNAME'] = 'SpaceArt'
-    app.config['MAIL_PASSWORD'] = 'SpaceArt'
-    app.config['MAIL_USE_TLS'] = False
-    app.config['MAIL_USE_SSL'] = True
+
     config.send_mail = Mail(app)
     CORS(app)
     app.config.from_object(config.app_config['development'])
