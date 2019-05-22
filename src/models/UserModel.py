@@ -74,12 +74,14 @@ class UserModel(db.Model):
     @staticmethod
     def info_user(user, token):
         ser_data = UserSchema().dump(user).data
+        string_validate = list(ser_data.get('mail_validate'))
         info = {
             'jwt_token': token,
             'id_user': ser_data.get('id'),
             'firstname': ser_data.get('firstname'),
             'lastname': ser_data.get('lastname'),
-            'email': ser_data.get('email')
+            'email': ser_data.get('email'),
+            'mail_validate': string_validate[5]
         }
         return info
 
