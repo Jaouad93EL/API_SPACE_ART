@@ -43,7 +43,6 @@ class UserModel(db.Model):
         setattr(self, 'mail_validate', mail_keys)
         db.session.commit()
 
-
     def update_right(self, r):
         self.right = r
         db.session.commit()
