@@ -40,9 +40,14 @@ def get_all():
 @user_api.route('/mail_validate', methods=['POST'])
 @Auth.auth_required
 def mail_validate():
+    req_data = request.get_json()
     users = UserModel.get_one_user(g.user.get('id'))
-    string_validate = list(user_schema.dump(users).data.get('mail_validate'))
-    if string_validate[5] == 1:
+    tab_validate = list(user_schema.dump(users).data.get('mail_validate'))
+    del(tab_validate[5])
+    del(tab_validate[4])
+    string_validate = "".join(tab_validate)
+    print(string_validate)
+    if string_validate == req_data.get('key_mail'):
         return custom_response({'success': 'Code valid'}, 200)
     return custom_response({'error': 'Code not valid.'}, 400)
 
