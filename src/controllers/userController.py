@@ -37,15 +37,14 @@ def get_all():
     ser_users = user_schema.dump(users, many=True).data
     return custom_response(ser_users, 200)
 
-
-@user_api.route('/mail', methods=['GET'])
+@user_api.route('/mail_validate', methods=['POST'])
 @Auth.auth_required
-def mail():
+def mail_validate():
     users = UserModel.get_one_user(g.user.get('id'))
     string_validate = list(user_schema.dump(users).data.get('mail_validate'))
     if string_validate[5] == 1:
-        return custom_response('true', 200)
-    return custom_response('false', 200)
+        return custom_response({'success': 'Code valid'}, 200)
+    return custom_response({'error': 'Code not valid.'}, 400)
 
 
 @user_api.route('/user_to_admin/<int:user_id>', methods=['PUT'])
