@@ -2,8 +2,8 @@ from flask import render_template
 from flask_mail import Message
 from ..models import mail
 import socket
-import random
-import string
+from random import randrange
+
 
 def login_success(template, email, keys=None):
     message = "Nous vous remercions pour votre confiance," \
@@ -37,5 +37,4 @@ def password_updated(template, email):
         return 0
 
 def randomString(stringLength=4):
-    letters = string.ascii_lowercase
-    return ''.join(random.choice(letters) for i in range(stringLength))
+    return ''.join(str(randrange(0, 9)) for i in range(stringLength))

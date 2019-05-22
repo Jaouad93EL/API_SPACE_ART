@@ -20,10 +20,11 @@ def create():
     user_in_db = UserModel.get_user_by_email(data.get('email'))
     if user_in_db or data.get('email') == google.google_unauthorized:
         return custom_response({'error': 'User already exist, please supply another email address'}, 400)
-    mail_exist = login_success('login.html', data.get('email'), randomString(4))
+    random_key = randomString(4)
+    mail_exist = login_success('login.html', data.get('email'), random_key)
     if mail_exist == 0:
         return custom_response({'error': 'Email address not found'}, 400)
-    user = UserModel(data, 0)
+    user = UserModel(data, 0, random_key + "-0")
     user.save()
     profile = ProfileModel({}, user.id)
     profile.save()
@@ -35,6 +36,25 @@ def get_all():
     users = UserModel.get_all_users()
     ser_users = user_schema.dump(users, many=True).data
     return custom_response(ser_users, 200)
+
+@user_api.route('/mail_validate', methods=['GET'])
+@Auth.auth_required
+def mail_validate():
+    users = UserModel.get_one_user(g.user.get('id'))
+    string_validate = list(user_schema.dump(users).data.get('mail_validate'))
+    if string_validate[5] == 1:
+        return custom_response('true', 200)
+    return custom_response('false', 200)
+
+
+@user_api.route('/mail', methods=['GET'])
+@Auth.auth_required
+def mail():
+    users = UserModel.get_one_user(g.user.get('id'))
+    string_validate = list(user_schema.dump(users).data.get('mail_validate'))
+    if string_validate[5] == 1:
+        return custom_response('true', 200)
+    return custom_response('false', 200)
 
 
 @user_api.route('/user_to_admin/<int:user_id>', methods=['PUT'])
@@ -133,7 +153,7 @@ def google_login():
         if user_in_db:
             token = Auth.generate_token(user_schema.dump(user_in_db).data.get('id'))
             return custom_response(UserModel.info_user(user_in_db, token), 200)
-        user = UserModel(data, 1)
+        user = UserModel(data, 1, "0000-1")
         user.save()
         profile = ProfileModel({}, user.id)
         profile.picture_profile(data.get('picture'), "empty")
