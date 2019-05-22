@@ -46,7 +46,7 @@ def mail_validate():
     del(tab_validate[5])
     del(tab_validate[4])
     string_validate = "".join(tab_validate)
-    print(string_validate)
+    print(string_validate + "     " + req_data.get('key_mail'))
     if string_validate == req_data.get('key_mail'):
         return custom_response({'success': 'Code valid'}, 200)
     return custom_response({'error': 'Code not valid.'}, 400)
