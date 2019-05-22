@@ -23,7 +23,6 @@ def reset_password(template, keys, email):
     except socket.gaierror:
         return 0
 
-
 def password_updated(template, email):
     message = "Votre mot de passe a été changer avec succes. Nous vous souhaitons un agreable moment" \
               " en notre compagnie a bientot !"
