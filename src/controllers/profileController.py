@@ -5,6 +5,7 @@ from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
 from ..Google_storage import google
 import urllib.parse
+import requests
 import json
 
 profile_api = Blueprint('profile', __name__)
@@ -75,8 +76,8 @@ def update_pic_ban():
     banner_storage = request.files.get('banner')
     picture_url = None
     banner_url = None
-    if picture_storage: picture_storage = request.put(request.url_root + 'api/profil/update_picture', files={'picture': picture_storage}, headers=request.headers)
-    if banner_storage: banner_storage = request.put(request.url_root + 'api/profil/update_banner', files={'banner': banner_storage}, headers=request.headers)
+    if picture_storage: picture_storage = requests.put(request.url_root + 'api/profil/update_picture', files={'picture': picture_storage}, headers=request.headers)
+    if banner_storage: banner_storage = requests.put(request.url_root + 'api/profil/update_banner', files={'banner': banner_storage}, headers=request.headers)
     if picture_storage.status_code == 200: picture_url = json.load(picture_storage.text)
     if banner_storage.status_code == 200: banner_url = json.load(banner_storage.text)
     url = {
