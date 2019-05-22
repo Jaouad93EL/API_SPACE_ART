@@ -78,11 +78,14 @@ def update_pic_ban():
     banner_url = None
     if picture_storage: picture_storage = requests.put(request.url_root + 'api/profil/update_picture', files={'picture': picture_storage}, headers=request.headers)
     if banner_storage: banner_storage = requests.put(request.url_root + 'api/profil/update_banner', files={'banner': banner_storage}, headers=request.headers)
-    if picture_storage.status_code == 200: picture_url = json.load(picture_storage.text)
-    if banner_storage.status_code == 200: banner_url = json.load(banner_storage.text)
+    if picture_storage.status_code == 200:
+        picture_url = json.load(picture_storage.json)['succcessful']['url']
+    if banner_storage.status_code == 200:
+        banner_url = json.load(banner_storage.json)['succcessful']['url']
+    print(picture_storage)
     url = {
-        'picture_url': picture_url['succcessful']['url'],
-        'banner_url': banner_url['succcessful']['url']
+        'picture_url': picture_url,
+        'banner_url': banner_url
     }
     return custom_response({'link': {url}}, 200)
 
