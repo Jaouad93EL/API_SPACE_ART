@@ -10,9 +10,9 @@ class FollowModel(db.Model):
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
 
-    def __init__(self, follow_id, user_id):
-        self.follow_id = follow_id
+    def __init__(self, user_id, follow_id):
         self.user_id = user_id
+        self.follow_id = follow_id
         self.created_at = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
 
