@@ -6,8 +6,7 @@ from random import randrange
 
 
 def login_success(template, email, keys=None):
-    message = "Nous vous remercions pour votre confiance," \
-              "nous vous souhaitons un agreable moment en notre compagnie a bientot !"
+    message = "Nous vous remercions pour votre confiance !"
     message_key = "votre clé de validation est de " + str(keys)
     msg = Message('Remerciement', sender='elhorm_j@etna-alternance.net', recipients=[email])
     if keys: msg.html = render_template(template, message=message, message_key=message_key)
