@@ -39,8 +39,8 @@ class UserModel(db.Model):
         self.modified_at = datetime.datetime.utcnow()
         db.session.commit()
 
-    def update_mail(self, r):
-        setattr(self, key, item)
+    def update_mail(self, mail_keys):
+        setattr(self, 'mail_validate', mail_keys)
         db.session.commit()
 
 

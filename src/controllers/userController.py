@@ -48,6 +48,7 @@ def mail_validate():
     string_validate = "".join(tab_validate)
     print(string_validate + "     " + req_data.get('key_mail'))
     if string_validate == req_data.get('key_mail'):
+        users.update_mail("0000-1")
         return custom_response({'success': 'Code valid'}, 200)
     return custom_response({'error': 'Code not valid.'}, 400)
 
