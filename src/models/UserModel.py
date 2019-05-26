@@ -63,6 +63,10 @@ class UserModel(db.Model):
         return UserModel.query.all()
 
     @staticmethod
+    def get_users_like(string_like):
+        return UserModel.query.filter(UserModel.lastname.match(string_like)).all()
+
+    @staticmethod
     def get_one_user(id):
         return UserModel.query.filter_by(id=id).first()
 
