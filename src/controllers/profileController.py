@@ -5,8 +5,6 @@ from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
 from ..Google_storage import google
 import urllib.parse
-import requests
-import json
 
 profile_api = Blueprint('profile', __name__)
 profile_schema = ProfileSchema()
