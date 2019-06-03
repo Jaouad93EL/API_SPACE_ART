@@ -37,23 +37,36 @@ def get_all():
     ser_users = user_schema.dump(users, many=True).data
     return custom_response(ser_users, 200)
 
+@user_api.route('/get_users_like/<string:string_like>', methods=['GET'])
+def get_users_like(string_like):
+    users_lastname = UserModel.get_users_lastname_like(string_like)
+    users_firstname = UserModel.get_users_firstname_like(string_like)
+    for u_l in users_lastname:
+        for u_f in users_firstname:
+            if u_l['email'] == u_f['email']:
+                users_firstname.remove(u_f)
+    list_users = users_lastname + users_firstname
+    print(list_users)
+    ser_users = user_schema.dump(list_users, many=True).data
+    return custom_response(ser_users, 200)
+
 
 @user_api.route('/get_users_lastname_like/<string:string_like>', methods=['GET'])
-def get_users_like(string_like):
+def get_users_lastname_like(string_like):
     users = UserModel.get_users_lastname_like(string_like)
     ser_users = user_schema.dump(users, many=True).data
     return custom_response(ser_users, 200)
 
 
 @user_api.route('/get_users_firstname_like/<string:string_like>', methods=['GET'])
-def get_users_like(string_like):
+def get_users_firstname_like(string_like):
     users = UserModel.get_users_firstname_like(string_like)
     ser_users = user_schema.dump(users, many=True).data
     return custom_response(ser_users, 200)
 
 
 @user_api.route('/get_users_email_like/<string:string_like>', methods=['GET'])
-def get_users_like(string_like):
+def get_users_email_like(string_like):
     users = UserModel.get_users_email_like(string_like)
     ser_users = user_schema.dump(users, many=True).data
     return custom_response(ser_users, 200)
