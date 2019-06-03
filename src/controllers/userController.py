@@ -38,9 +38,23 @@ def get_all():
     return custom_response(ser_users, 200)
 
 
-@user_api.route('/get_users_like/<string:string_like>', methods=['GET'])
+@user_api.route('/get_users_lastname_like/<string:string_like>', methods=['GET'])
 def get_users_like(string_like):
-    users = UserModel.get_users_like(string_like)
+    users = UserModel.get_users_lastname_like(string_like)
+    ser_users = user_schema.dump(users, many=True).data
+    return custom_response(ser_users, 200)
+
+
+@user_api.route('/get_users_firstname_like/<string:string_like>', methods=['GET'])
+def get_users_like(string_like):
+    users = UserModel.get_users_firstname_like(string_like)
+    ser_users = user_schema.dump(users, many=True).data
+    return custom_response(ser_users, 200)
+
+
+@user_api.route('/get_users_email_like/<string:string_like>', methods=['GET'])
+def get_users_like(string_like):
+    users = UserModel.get_users_email_like(string_like)
     ser_users = user_schema.dump(users, many=True).data
     return custom_response(ser_users, 200)
 

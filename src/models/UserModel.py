@@ -63,8 +63,16 @@ class UserModel(db.Model):
         return UserModel.query.all()
 
     @staticmethod
-    def get_users_like(string_like):
+    def get_users_lastname_like(string_like):
         return UserModel.query.filter(UserModel.lastname.like(string_like + '%')).all()
+
+    @staticmethod
+    def get_users_firstname_like(string_like):
+        return UserModel.query.filter(UserModel.firstname.like(string_like + '%')).all()
+
+    @staticmethod
+    def get_users_email_like(string_like):
+        return UserModel.query.filter(UserModel.email.like(string_like + '%')).all()
 
     @staticmethod
     def get_one_user(id):
