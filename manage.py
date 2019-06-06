@@ -7,6 +7,7 @@ from src.models import FollowModel
 from src.models import AudioModel
 from src.models import VideoModel
 from src.models import NewsfeedModel
+from src.models import PostModel
 from src.models import RevokedTokenModel
 
 
@@ -17,6 +18,7 @@ a = AudioModel
 v = VideoModel
 n = NewsfeedModel
 r = RevokedTokenModel
+po = PostModel
 
 app = create_app()
 migrate = Migrate(app=app, db=db)

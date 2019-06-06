@@ -9,6 +9,8 @@ from .controllers.followController import follow_api as follow_blueprint
 from .controllers.profileController import profile_api as profile_blueprint
 from .controllers.audioController import audio_api as audio_blueprint
 from .controllers.videoController import video_api as video_blueprint
+from .controllers.postController import post_api as post_blueprint
+
 
 def create_app():
     app = Flask(__name__)
@@ -26,6 +28,8 @@ def create_app():
     app.register_blueprint(audio_blueprint, url_prefix='/api/audio')
     app.register_blueprint(video_blueprint, url_prefix='/api/video')
     app.register_blueprint(profile_blueprint, url_prefix='/api/profile')
+    app.register_blueprint(post_blueprint, url_prefix='/api/post')
+
     # -----------------------------------route-----------------------------------#
 
     @app.route('/', methods=['GET'])
