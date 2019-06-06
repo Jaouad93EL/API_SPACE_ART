@@ -17,3 +17,14 @@ def create_post():
     post = PostModel(data, g.user.get('id'))
     post.save()
     return custom_response({'success': 'Post created'}, 200)
+
+
+@user_api.route('/all_post/<int:id_user>', methods=['GET'])
+@Auth.auth_required
+def create_post(id_user):
+    post_in_db = PostModel.get_post_all(id_user)
+    if post_in_db:
+        list_post = []
+        [list_post.append(post_schema.dump(a).data) for a in post_in_db]
+        return custom_response({'successful': list_post}, 200)
+    return custom_response({'error': 'Post not exist.'}, 400)
