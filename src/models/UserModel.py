@@ -1,5 +1,6 @@
 import datetime
 from marshmallow import fields, Schema
+from .NewsfeedModel import NewsfeedModel
 from . import db
 from ..app import bcrypt
 
@@ -13,6 +14,7 @@ class UserModel(db.Model):
     social_id = db.Column(db.Integer, nullable=True)
     right = db.Column(db.Integer, nullable=True)
     mail_validate = db.Column(db.String(128), nullable=True)
+    newsfeed = db.relationship(NewsfeedModel, uselist=False)
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
 

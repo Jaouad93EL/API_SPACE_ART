@@ -33,7 +33,7 @@ class NewsfeedModel(db.Model):
         db.session.commit()
 
     @staticmethod
-    def get_post_all(user_id):
+    def get_news_all(user_id):
         return NewsfeedModel.query.filter_by(user_id=user_id).all()
 
     def __repr(self):
