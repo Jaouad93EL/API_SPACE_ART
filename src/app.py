@@ -29,7 +29,6 @@ def create_app():
     app.register_blueprint(video_blueprint, url_prefix='/api/video')
     app.register_blueprint(profile_blueprint, url_prefix='/api/profile')
     app.register_blueprint(post_blueprint, url_prefix='/api/post')
-
     # -----------------------------------route-----------------------------------#
 
     @app.route('/', methods=['GET'])
