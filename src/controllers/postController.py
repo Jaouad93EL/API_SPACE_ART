@@ -15,7 +15,7 @@ def create_post():
     data, error = post_schema.load(req_data)
     if error:
         return custom_response(error, 400)
-    post = PostModel(data, g.user.get('id'))
+    post = PostModel(data.get('text'), g.user.get('id'))
     post.save()
     return custom_response({'success': 'Post created'}, 200)
 
