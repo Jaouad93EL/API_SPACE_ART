@@ -42,6 +42,9 @@ class NewsfeedModel(db.Model):
     def get_id(self):
         return self.id
 
+    def get_parent_id(self):
+        return self.parent_id
+
 class NewsfeedSchema(Schema):
     id = fields.Int(dump_only=True)
     type = fields.Str(required=True)

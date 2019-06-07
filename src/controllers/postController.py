@@ -1,3 +1,6 @@
+import json
+from ..models import db
+
 from flask import request, Blueprint, g
 
 from ..models.PostModel import PostModel, PostSchema
@@ -17,8 +20,6 @@ follow_schema = FollowSchema()
 profile_schema = ProfileSchema()
 user_schema = UserSchema()
 newsfeed_schema = NewsfeedSchema()
-
-
 
 
 @post_api.route('/create_post', methods=['POST'])
@@ -46,9 +47,15 @@ def all_post(user_id):
         for f in following_in_db:
             id_user = follow_schema.dump(f).data.get('follow_id')
             user = UserModel.get_one_user(id_user)
-            print(newsfeed_schema.dump(user.newsfeed).data.get('type'))
-            print(newsfeed_schema.dump(user.newsfeed).data.get('modified_at'))
-    return custom_response({'success': 'okokokokokookok.'}, 200)
+            for news in user.newsfeed:
+                news_parent = newsfeed_schema.dump(news).data
+                if news_parent.get('type') == 'post':
+                    post = post_schema.dump(PostModel.get_one_post(news_parent.get('parent_id'))).data
+                    print(post)
+                elif news_parent == 'like':
+                    print('de type like')
+        return custom_response({'success': 'okokookokookokookokookokookook.'}, 200)
+    return custom_response({'success': 'nonoonononoononono.'}, 200)
 
 # @post_api.route('/all_post/<int:user_id>', methods=['GET'])
 # def all_post(user_id):

@@ -14,7 +14,7 @@ class UserModel(db.Model):
     social_id = db.Column(db.Integer, nullable=True)
     right = db.Column(db.Integer, nullable=True)
     mail_validate = db.Column(db.String(128), nullable=True)
-    newsfeed = db.relationship(NewsfeedModel, uselist=False)
+    newsfeed = db.relationship(NewsfeedModel, lazy="dynamic")
     created_at = db.Column(db.DateTime)
     modified_at = db.Column(db.DateTime)
 
