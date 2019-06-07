@@ -66,5 +66,5 @@ def all_post(user_id):
                     'picture_url': ser_profile.get('picture_url')
                 }
                 li_newsfeed.append(dict_news)
-        return custom_response({'success': sorted(li_newsfeed, key=operator.itemgetter('date'))}, 200)
+        return custom_response({'success': sorted(li_newsfeed, key=operator.itemgetter('date'), reverse=True)}, 200)
     return custom_response({'error': 'No news.'}, 200)
