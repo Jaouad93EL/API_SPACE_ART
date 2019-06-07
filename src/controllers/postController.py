@@ -1,5 +1,8 @@
 import json
 from ..models import db
+from datetime import datetime
+import dateutil.parser
+import operator
 
 from flask import request, Blueprint, g
 
@@ -44,43 +47,30 @@ def create_post():
 def all_post(user_id):
     following_in_db = FollowModel.get_all_following(user_id)
     if following_in_db:
+        li_newsfeed = []
         for f in following_in_db:
             id_user = follow_schema.dump(f).data.get('follow_id')
             user = UserModel.get_one_user(id_user)
             for news in user.newsfeed:
                 news_parent = newsfeed_schema.dump(news).data
+                ser_user = user_schema.dump(user).data
+                ser_profile = profile_schema.dump(UserModel.get_one_user(ser_user.get('id'))).data
+                dict_news = {}
                 if news_parent.get('type') == 'post':
-                    post = post_schema.dump(PostModel.get_one_post(news_parent.get('parent_id'))).data
-                    print(post)
-                elif news_parent == 'like':
-                    print('de type like')
-        return custom_response({'success': 'okokookokookokookokookokookook.'}, 200)
-    return custom_response({'success': 'nonoonononoononono.'}, 200)
-
-# @post_api.route('/all_post/<int:user_id>', methods=['GET'])
-# def all_post(user_id):
-#     post_in_db = PostModel.get_post_all(user_id)
-#     following_in_db = FollowModel.get_all_following(user_id)
-#     if following_in_db:
-#         li_following = []
-#         for f in following_in_db:
-#             id_user = follow_schema.dump(f)
-#             mini_profile = profile_schema.dump(ProfileModel.get_one_profile(id_user.data.get('follow_id')))
-#             mini_user = user_schema.dump(UserModel.get_one_user(id_user.data.get('follow_id')))
-#             news_in_db = newsfeed_schema.dump(NewsfeedModel.get_news_all(id_user.data.get('follow_id')))
-#             if news_in_db:
-#                 news = {}
-#                 if news_in_db.data.get('type') == 'post':
-#                     pass
-#             m = {
-#                 'id_user': mini_user.data.get('id'),
-#                 'firstname': mini_user.data.get('firstname'),
-#                 'lastname': mini_user.data.get('lastname'),
-#                 'picture_url': mini_profile.data.get('picture_url')
-#             }
-#             li_following.append(m)
-#     if post_in_db:
-#         list_post = []
-#         [list_post.append(post_schema.dump(a).data) for a in post_in_db]
-#         return custom_response({'successful': list_post}, 200)
-#     return custom_response({'error': 'Post not exist.'}, 400)
+                    ser_post = post_schema.dump(PostModel.get_one_post(news_parent.get('parent_id'))).data
+                    dict_news = {
+                        'date': dateutil.parser.parse(ser_post.get('modified_at')),
+                        'type': 'post',
+                        'news': {'id': ser_post.get('id'), 'text': ser_post.get('text')},
+                    }
+                elif news_parent.get('type') == 'like':
+                    print('de type like A FAIRE')
+                dict_news['user'] = {
+                    'id_user': ser_user.get('id'),
+                    'firstname': ser_user.get('firstname'),
+                    'lastname': ser_user.get('lastname'),
+                    'picture_url': ser_profile.get('picture_url')
+                }
+                li_newsfeed.append(dict_news)
+        return custom_response({'success': sorted(li_newsfeed, key=operator.itemgetter('date'))}, 200)
+    return custom_response({'error': 'No news.'}, 200)
