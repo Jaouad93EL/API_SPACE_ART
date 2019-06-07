@@ -1,14 +1,8 @@
-import json
-from ..models import db
-from datetime import datetime
-import dateutil.parser
 import operator
-
+import dateutil.parser
 from flask import request, Blueprint, g
-
 from ..models.PostModel import PostModel, PostSchema
-from ..models.NewsfeedModel import NewsfeedModel
-from ..models.ProfileModel import ProfileModel, ProfileSchema
+from ..models.ProfileModel import ProfileSchema
 from ..models.UserModel import UserModel, UserSchema
 from ..models.FollowModel import FollowModel, FollowSchema
 from ..models.NewsfeedModel import NewsfeedModel, NewsfeedSchema
