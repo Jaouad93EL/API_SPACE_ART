@@ -40,15 +40,14 @@ def create_post():
 @post_api.route('/all_post/<int:user_id>', methods=['GET'])
 def all_post(user_id):
     following_in_db = FollowModel.get_all_following(user_id)
+    li_newsfeed = []
     if following_in_db:
-        li_newsfeed = []
         for f in following_in_db:
             user = UserModel.get_one_user(follow_schema.dump(f).data.get('follow_id'))
             li_newsfeed += insert_news(user)
-        me_user = UserModel.get_one_user(user_id)
-        li_newsfeed += insert_news(me_user)
-        return custom_response({'success': sorted(li_newsfeed, key=operator.itemgetter('date'), reverse=True)}, 200)
-    return custom_response({'error': 'No news.'}, 200)
+    me_user = UserModel.get_one_user(user_id)
+    li_newsfeed += insert_news(me_user)
+    return custom_response({'success': sorted(li_newsfeed, key=operator.itemgetter('date'), reverse=True)}, 200)
 
 
 def insert_news(user):
