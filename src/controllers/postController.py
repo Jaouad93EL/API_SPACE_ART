@@ -43,37 +43,16 @@ def all_post(user_id):
     if following_in_db:
         li_newsfeed = []
         for f in following_in_db:
-            id_user = follow_schema.dump(f).data.get('follow_id')
-            user = UserModel.get_one_user(id_user)
-            li_newsfeed.append(insert_news(user))
-            # for news in user.newsfeed:
-            #     news_parent = newsfeed_schema.dump(news).data
-            #     ser_user = user_schema.dump(user).data
-            #     ser_profile = profile_schema.dump(ProfileModel.get_one_profile(ser_user.get('id'))).data
-            #     dict_news = {}
-            #     if news_parent.get('type') == 'post':
-            #         ser_post = post_schema.dump(PostModel.get_one_post(news_parent.get('parent_id'))).data
-            #         dict_news = {
-            #             'date': dateutil.parser.parse(ser_post.get('modified_at')),
-            #             'type': 'post',
-            #             'news': {'id': ser_post.get('id'), 'text': ser_post.get('text')},
-            #         }
-            #     elif news_parent.get('type') == 'like':
-            #         print('de type like A FAIRE')
-            #     dict_news['user'] = {
-            #         'id_user': ser_user.get('id'),
-            #         'firstname': ser_user.get('firstname'),
-            #         'lastname': ser_user.get('lastname'),
-            #         'picture_url': ser_profile.get('picture_url')
-            #     }
-            #     li_newsfeed.append(dict_news)
+            user = UserModel.get_one_user(follow_schema.dump(f).data.get('follow_id'))
+            li_newsfeed += insert_news(user)
         me_user = UserModel.get_one_user(user_id)
-        li_newsfeed.append(insert_news(me_user))
+        li_newsfeed += insert_news(me_user)
         return custom_response({'success': sorted(li_newsfeed, key=operator.itemgetter('date'), reverse=True)}, 200)
     return custom_response({'error': 'No news.'}, 200)
 
 
 def insert_news(user):
+    li_newsfeed = []
     for news in user.newsfeed:
         news_parent = newsfeed_schema.dump(news).data
         ser_user = user_schema.dump(user).data
@@ -94,4 +73,5 @@ def insert_news(user):
             'lastname': ser_user.get('lastname'),
             'picture_url': ser_profile.get('picture_url')
         }
-        return dict_news
+        li_newsfeed.append(dict_news)
+    return li_newsfeed
