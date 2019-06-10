@@ -19,7 +19,9 @@ class ProfileModel(db.Model):
     modified_at = db.Column(db.DateTime)
 
     def __init__(self, data, user_id):
-        self.picture_url = "empty"
+        self.picture_name_storage = "empty"
+        self.banner_name_storage = "empty"
+        self.picture_url = "http://emblemsbattlefield.com/uploads/posts/2014/10/facebook-default-photo-male_1.jpg"
         self.banner_url = "empty"
         self.age = data.get('age')
         self.size = data.get('size')

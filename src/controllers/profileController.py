@@ -59,7 +59,7 @@ def update_picture():
         return custom_response({'error': 'Is not a img/png file.'}, 400)
     profile = ProfileModel.get_one_profile(g.user.get('id'))
     ser_profile = profile_schema.dump(profile).data
-    if ser_profile.get('picture_url') != "empty":
+    if ser_profile.get('picture_name_storage') != "empty":
         google.delete_in_google("picture_space_art", str(g.user.get('id')), ser_profile.get('picture_name_storage'))
     url = google.store_in_google("picture_space_art", str(g.user.get('id')), picture_storage)
     profile.picture_profile(url, picture_storage.filename)

@@ -74,3 +74,9 @@ def insert_news(user):
         }
         li_newsfeed.append(dict_news)
     return li_newsfeed
+
+def insert_post(ser_post):
+    pass
+
+def insert_like(ser_like):
+    pass
