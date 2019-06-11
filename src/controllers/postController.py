@@ -58,12 +58,7 @@ def insert_news(user):
         ser_profile = profile_schema.dump(ProfileModel.get_one_profile(ser_user.get('id'))).data
         dict_news = {}
         if news_parent.get('type') == 'post':
-            ser_post = post_schema.dump(PostModel.get_one_post(news_parent.get('parent_id'))).data
-            dict_news = {
-                'date': dateutil.parser.parse(ser_post.get('modified_at')),
-                'type': 'post',
-                'news': {'id': ser_post.get('id'), 'text': ser_post.get('text')},
-            }
+            dict_news = insert_post(post_schema.dump(PostModel.get_one_post(news_parent.get('parent_id'))).data)
         elif news_parent.get('type') == 'like':
             print('de type like A FAIRE')
         dict_news['user'] = {
@@ -76,7 +71,7 @@ def insert_news(user):
     return li_newsfeed
 
 def insert_post(ser_post):
-    pass
+    return {'date': dateutil.parser.parse(ser_post.get('modified_at')), 'type': 'post', 'news': {'id': ser_post.get('id'), 'text': ser_post.get('text')}}
 
 def insert_like(ser_like):
     pass
