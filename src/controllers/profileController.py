@@ -66,28 +66,6 @@ def update_picture():
     return custom_response({'successful': {'url': urllib.parse.unquote(profile.picture_url)}}, 200)
 
 
-
-# @profile_api.route('/update_pic_ban', methods=['PUT'])
-# @Auth.auth_required
-# def update_pic_ban():
-#     picture_storage = request.files.get('picture')
-#     banner_storage = request.files.get('banner')
-#     picture_url = None
-#     banner_url = None
-#     if picture_storage: picture_storage = requests.put(request.url_root + 'api/profil/update_picture', files={'picture': picture_storage}, headers=request.headers)
-#     if banner_storage: banner_storage = requests.put(request.url_root + 'api/profil/update_banner', files={'banner': banner_storage}, headers=request.headers)
-#     if picture_storage.status_code == 200:
-#         picture_url = json.load(picture_storage.json)['succcessful']['url']
-#     if banner_storage.status_code == 200:
-#         banner_url = json.load(banner_storage.json)['succcessful']['url']
-#     print(picture_storage)
-#     url = {
-#         'picture_url': picture_url,
-#         'banner_url': banner_url
-#     }
-#     return custom_response({'link': {url}}, 200)
-
-
 @profile_api.route('/get_my_profile', methods=['GET'])
 @Auth.auth_required
 def get_my_profile():
