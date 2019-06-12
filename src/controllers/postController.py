@@ -49,9 +49,8 @@ def all_post(user_id):
     li_newsfeed += insert_news(me_user)
     return custom_response({'success': sorted(li_newsfeed, key=operator.itemgetter('date'), reverse=True)}, 200)
 
-
 def insert_news(user):
-    li_newsfeed = []
+    li_news = []
     for news in user.newsfeed:
         news_parent = newsfeed_schema.dump(news).data
         ser_user = user_schema.dump(user).data
@@ -67,8 +66,8 @@ def insert_news(user):
             'lastname': ser_user.get('lastname'),
             'picture_url': ser_profile.get('picture_url')
         }
-        li_newsfeed.append(dict_news)
-    return li_newsfeed
+        li_news.append(dict_news)
+    return li_news
 
 def insert_post(ser_post):
     return {'date': dateutil.parser.parse(ser_post.get('modified_at')), 'type': 'post', 'news': {'id': ser_post.get('id'), 'text': ser_post.get('text')}}
