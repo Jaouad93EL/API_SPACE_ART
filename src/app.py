@@ -1,7 +1,7 @@
 from flask import Flask, request
 from flask_cors import CORS
 from . import config
-from .models import db, bcrypt, mail
+from .models import db, bcrypt, mail, mongo
 from flask_mail import Mail
 from src.jsonResponse import custom_response
 from .controllers.userController import user_api as user_blueprint
@@ -14,13 +14,13 @@ from .controllers.postController import post_api as post_blueprint
 
 def create_app():
     app = Flask(__name__)
-
     config.send_mail = Mail(app)
     CORS(app)
     app.config.from_object(config.app_config['development'])
     bcrypt.init_app(app)
     db.init_app(app)
     mail.init_app(app)
+    mongo.init_app(app)
 
     #------------------------------------route-----------------------------------#
     app.register_blueprint(user_blueprint, url_prefix='/api/users')
