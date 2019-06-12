@@ -60,7 +60,7 @@ def insert_news(user):
         if news_parent.get('type') == 'post':
             dict_news = insert_post(post_schema.dump(PostModel.get_one_post(news_parent.get('parent_id'))).data)
         elif news_parent.get('type') == 'like':
-            print('de type like A FAIRE')
+            print('de type like')
         dict_news['user'] = {
             'id_user': ser_user.get('id'),
             'firstname': ser_user.get('firstname'),
