@@ -34,12 +34,12 @@ def create_post():
     return custom_response({'success': info_post}, 200)
 
 
-@post_api.route('/delete_post', methods=['DELETE'])
+@post_api.route('/delete_post/<int:post_id>', methods=['DELETE'])
 @Auth.auth_required
-def delete_post():
-    post = PostModel.get_one_post_by_user_id(g.user.get('id'))
-    news = NewsfeedModel.get_one_post_by_user_id(g.user.get('id'))
-    if not post or not news: return custom_response({'error', 'Not your post'}, 400)
+def delete_post(post_id):
+    post = PostModel.get_one_post_by_user_id(post_id, g.user.get('id'))
+    news = NewsfeedModel.get_one_post_by_user_id(post.get_id, g.user.get('id'))
+    if not post or not news: return custom_response({'error', 'Not your news'}, 400)
     post.delete()
     news.delete()
     return custom_response({'success': 'Post delete'}, 200)

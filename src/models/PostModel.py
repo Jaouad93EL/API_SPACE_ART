@@ -39,8 +39,8 @@ class PostModel(db.Model):
         return PostModel.query.filter_by(id=id).first()
 
     @staticmethod
-    def get_one_post_by_user_id(user_id):
-        return PostModel.query.filter_by(user_id=user_id).first()
+    def get_one_post_by_user_id(post_id,user_id):
+        return PostModel.query.filter_by(id=post_id, user_id=user_id).first()
 
     def __repr(self):
         return '<id {}>'.format(self.id)
