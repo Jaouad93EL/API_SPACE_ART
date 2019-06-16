@@ -1,7 +1,7 @@
 import datetime
 from marshmallow import fields, Schema
 from .NewsfeedModel import NewsfeedModel
-from . import db
+from . import db, mongo
 from ..app import bcrypt
 
 class UserModel(db.Model):
@@ -83,6 +83,10 @@ class UserModel(db.Model):
     @staticmethod
     def get_user_by_email(email):
         return UserModel.query.filter_by(email=email).first()
+
+    @staticmethod
+    def private_conv():
+        return mongo.db.users.find()
 
     @staticmethod
     def info_user(user, token):

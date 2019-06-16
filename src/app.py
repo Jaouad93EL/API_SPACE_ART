@@ -10,6 +10,7 @@ from .controllers.profileController import profile_api as profile_blueprint
 from .controllers.audioController import audio_api as audio_blueprint
 from .controllers.videoController import video_api as video_blueprint
 from .controllers.postController import post_api as post_blueprint
+from.controllers.messageController import message_api as message_blueprint
 
 
 def create_app():
@@ -29,6 +30,7 @@ def create_app():
     app.register_blueprint(video_blueprint, url_prefix='/api/video')
     app.register_blueprint(profile_blueprint, url_prefix='/api/profile')
     app.register_blueprint(post_blueprint, url_prefix='/api/post')
+    app.register_blueprint(message_blueprint, url_prefix='/api/message')
     # -----------------------------------route-----------------------------------#
 
     @app.route('/', methods=['GET'])
@@ -42,6 +44,6 @@ def create_app():
             temp = request.url_root
             new, url_root = list(rule.methods), temp.rsplit('/', 1)
             method = [x for x in new if x != 'OPTIONS' and x != 'HEAD']
-            links[count], count = {"Method": method[0], "url": url_root[0]+str(rule)}, count + 1
+            links[count], count = {"Method": method[0], "url": url_root[0] + str(rule)}, count + 1
         return custom_response(links, 200)
     return app

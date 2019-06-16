@@ -10,6 +10,7 @@ class Development(object):
     MAIL_PASSWORD = 'j19991106'
     MAIL_USE_TLS = False
     MAIL_USE_SSL = True
+    MONGO_DBNAME = "SpaceArt"
     MONGO_URI = "mongodb://localhost:27017/SpaceArt"
 
 class Production(object):

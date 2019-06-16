@@ -6,10 +6,8 @@ from ..models.ProfileModel import ProfileModel,ProfileSchema
 from ..models.UserModel import UserModel, UserSchema
 from ..models.FollowModel import FollowModel, FollowSchema
 from ..models.NewsfeedModel import NewsfeedModel, NewsfeedSchema
-
 from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
-
 
 post_api = Blueprint('post', __name__)
 post_schema = PostSchema()
@@ -17,7 +15,6 @@ follow_schema = FollowSchema()
 profile_schema = ProfileSchema()
 user_schema = UserSchema()
 newsfeed_schema = NewsfeedSchema()
-
 
 @post_api.route('/create_post', methods=['POST'])
 @Auth.auth_required
@@ -35,6 +32,17 @@ def create_post():
         'user_id': post.user_id
     }
     return custom_response({'success': info_post}, 200)
+
+
+@post_api.route('/delete_post', methods=['DELETE'])
+@Auth.auth_required
+def delete_post():
+    post = PostModel.get_one_post_by_user_id(g.user.get('id'))
+    news = NewsfeedModel.get_one_post_by_user_id(g.user.get('id'))
+    if not post or not news: return custom_response({'error', 'Not your post'}, 400)
+    post.delete()
+    news.delete()
+    return custom_response({'success': 'Post delete'}, 200)
 
 
 @post_api.route('/all_post/<int:user_id>', methods=['GET'])

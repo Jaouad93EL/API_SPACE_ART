@@ -7,7 +7,6 @@ from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
 from ..Google_storage import google
 
-
 user_api = Blueprint('users', __name__)
 user_schema = UserSchema()
 
