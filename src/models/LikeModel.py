@@ -43,6 +43,10 @@ class LikeModel(db.Model):
         return LikeModel.query.filter_by(id=like_id, user_id=user_id).first()
 
     @staticmethod
+    def get_nb_like_post_id(post_id):
+        return LikeModel.query.filter_by(post_id=post_id).first()
+
+    @staticmethod
     def get_one_if_liked(post_id, user_id):
         return LikeModel.query.filter_by(post_id=post_id, user_id=user_id).first()
 

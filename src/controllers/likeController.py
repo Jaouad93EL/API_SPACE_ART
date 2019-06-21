@@ -2,18 +2,12 @@ from flask import request, Blueprint, g
 from ..shared.Authentication import Auth
 from ..models.PostModel import PostModel, PostSchema
 from ..models.LikeModel import LikeModel, LikeSchema
-from ..models.ProfileModel import ProfileModel,ProfileSchema
-from ..models.UserModel import UserModel, UserSchema
-from ..models.FollowModel import FollowModel, FollowSchema
 from ..models.NewsfeedModel import NewsfeedModel, NewsfeedSchema
 from src.jsonResponse import custom_response
 
 like_api = Blueprint('like', __name__)
 post_schema = PostSchema()
 like_schema = LikeSchema()
-follow_schema = FollowSchema()
-profile_schema = ProfileSchema()
-user_schema = UserSchema()
 newsfeed_schema = NewsfeedSchema()
 
 @like_api.route('/like_post/<int:post_id>', methods=['GET'])
@@ -34,5 +28,8 @@ def like_post(post_id):
 def delete_like_post(like_id):
     like = LikeModel.get_one_like_by_user_id(like_id, g.user.get('id'))
     if not like: return custom_response({'error': 'You not liked this post.'}, 400)
+    news = NewsfeedModel.get_one_news_by_user_id(like.get_id(), g.user.get('id'))
+    if not news: return custom_response({'error': 'You not liked this news.'}, 400)
     like.delete()
+    news.delete()
     return custom_response({'success': 'Post unliked.'}, 200)

@@ -31,12 +31,7 @@ def create_post():
     ser_user = user_schema.dump(UserModel.get_one_user(g.user.get('id'))).data
     ser_profile = profile_schema.dump(ProfileModel.get_one_profile(ser_user.get('id'))).data
     dict_news = insert_post(post_schema.dump(post).data)
-    dict_news['user'] = {
-            'id_user': ser_user.get('id'),
-            'firstname': ser_user.get('firstname'),
-            'lastname': ser_user.get('lastname'),
-            'picture_url': ser_profile.get('picture_url')
-        }
+    dict_news['user'] = insert_user(ser_user, ser_profile)
     return custom_response({'success': dict_news}, 200)
 
 
@@ -108,6 +103,7 @@ def insert_user(ser_user, ser_profile):
         'lastname': ser_user.get('lastname'),
         'picture_url': ser_profile.get('picture_url')
     }
+
 
 @post_api.route('/get_my_all_post/<int:user_id>', methods=['GET'])
 def get_my_all_post(user_id):
