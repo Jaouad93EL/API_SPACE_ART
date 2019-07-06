@@ -12,6 +12,7 @@ from .controllers.videoController import video_api as video_blueprint
 from .controllers.postController import post_api as post_blueprint
 from .controllers.likeController import like_api as like_blueprint
 from.controllers.messageController import message_api as message_blueprint
+from.controllers.castController import cast_api as cast_blueprint
 
 
 def create_app():
@@ -33,6 +34,7 @@ def create_app():
     app.register_blueprint(post_blueprint, url_prefix='/api/post')
     app.register_blueprint(like_blueprint, url_prefix='/api/like')
     app.register_blueprint(message_blueprint, url_prefix='/api/message')
+    app.register_blueprint(cast_blueprint, url_prefix='/api/cast')
     # -----------------------------------route-----------------------------------#
 
     @app.route('/', methods=['GET'])

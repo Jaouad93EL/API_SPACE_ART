@@ -8,6 +8,8 @@ from src.models import AudioModel
 from src.models import VideoModel
 from src.models import NewsfeedModel
 from src.models import PostModel
+from src.models import CastModel
+from src.models import CandidateModel
 from src.models import RevokedTokenModel
 
 
@@ -19,6 +21,9 @@ v = VideoModel
 n = NewsfeedModel
 r = RevokedTokenModel
 po = PostModel
+c = CastModel
+ca = CandidateModel
+
 
 app = create_app()
 migrate = Migrate(app=app, db=db)
