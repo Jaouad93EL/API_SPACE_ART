@@ -85,6 +85,7 @@ def get_profile(user_id):
     info_user = {
         'firstname': ser_user.get('firstname'),
         'lastname': ser_user.get('lastname'),
+        'private': ser_user.get('private'),
         'age': ser_profile.get('age'),
         'size': ser_profile.get('size'),
         'weight': ser_profile.get('weight'),

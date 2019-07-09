@@ -17,7 +17,8 @@ user_schema = UserSchema()
 def create_cast():
     req_data = request.get_json()
     data, error = cast_schema.dump(req_data)
-    if error: return custom_response(error, 400)
+    if error:
+        return custom_response(error, 400)
     if CastModel.get_one_cast_by_title(data.get('title')):
         return custom_response({"error": "Cast already exist."}, 400)
     cast = CastModel(data, g.user.get('id'))
@@ -59,6 +60,7 @@ def get_one_cast(cast_id):
         'profile': ser_profile
     }
     return custom_response({"success": info}, 200)
+
 
 @cast_api.route('/candidate_cast/<int:cast_id>', methods=['POST'])
 @Auth.auth_required
@@ -107,10 +109,16 @@ def accepted_candidate_or_not(cast_id, candidate_id):
     if not my_cast:
         return custom_response({"error": "Cast not found."}, 400)
     candidate = CandidateModel.get_one_candidate_by_cast_id(cast_id, candidate_id)
-    if candidate.get_accepted() == 0:
-        candidate.update_accepted(1)
-    elif candidate.get_accepted() == 1:
-        candidate.update_accepted(2)
-    elif candidate.get_accepted() == 2:
-        candidate.update_accepted(1)
+    candidate.update_accepted(1)
+    return custom_response({"success": candidate.get_accepted()}, 200)
+
+
+@cast_api.route('/refuse_candidate_or_not/<int:cast_id>/<int:candidate_id>', methods=['GET'])
+@Auth.auth_required
+def refuse_candidate_or_not(cast_id, candidate_id):
+    my_cast = CastModel.get_my_cast(cast_id, g.user.get('id'))
+    if not my_cast:
+        return custom_response({"error": "Cast not found."}, 400)
+    candidate = CandidateModel.get_one_candidate_by_cast_id(cast_id, candidate_id)
+    candidate.update_accepted(2)
     return custom_response({"success": candidate.get_accepted()}, 200)

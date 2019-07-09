@@ -86,6 +86,21 @@ def mail_validate():
         return custom_response({'success': 'Code valid'}, 200)
     return custom_response({'error': 'Code not valid.'}, 400)
 
+@user_api.route('/private_user', methods=['GET'])
+@Auth.auth_required
+def private_user():
+    user = UserModel.get_one_user(g.user.get('id'))
+    user.update_private(1)
+    return custom_response({'success': 'Code not valid.'}, 200)
+
+
+@user_api.route('/public_user', methods=['GET'])
+@Auth.auth_required
+def public_user():
+    user = UserModel.get_one_user(g.user.get('id'))
+    user.update_private(0)
+    return custom_response({'success': 'Code not valid.'}, 200)
+
 
 @user_api.route('/user_to_admin/<int:user_id>', methods=['PUT'])
 @Auth.auth_required

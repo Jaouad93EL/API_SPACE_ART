@@ -13,6 +13,7 @@ class UserModel(db.Model):
     password = db.Column(db.String(128), nullable=False)
     social_id = db.Column(db.Integer, nullable=True)
     right = db.Column(db.Integer, nullable=True)
+    private = db.Column(db.Integer, nullable=True)
     mail_validate = db.Column(db.String(128), nullable=True)
     newsfeed = db.relationship(NewsfeedModel, lazy="dynamic")
     created_at = db.Column(db.DateTime)
@@ -25,6 +26,7 @@ class UserModel(db.Model):
         self.password = self.__generate_hash(data.get('password'))
         self.social_id = social_id
         self.right = 0
+        self.private = 0
         self.mail_validate = mail_validate
         self.created_at = datetime.datetime.utcnow()
         self.modified_at = datetime.datetime.utcnow()
@@ -47,6 +49,10 @@ class UserModel(db.Model):
 
     def update_right(self, r):
         self.right = r
+        db.session.commit()
+
+    def update_private(self, p):
+        self.private = p
         db.session.commit()
 
     def delete(self):
@@ -98,7 +104,8 @@ class UserModel(db.Model):
             'firstname': ser_data.get('firstname'),
             'lastname': ser_data.get('lastname'),
             'email': ser_data.get('email'),
-            'mail_validate': string_validate[5]
+            'mail_validate': string_validate[5],
+            'private': ser_data.get('private')
         }
         return info
 
@@ -112,6 +119,7 @@ class UserSchema(Schema):
     email = fields.Email(required=True)
     password = fields.Str(required=True)
     right = fields.Int(required=False)
+    private = fields.Int(required=False)
     mail_validate = fields.Str(required=False)
     social_id = fields.Int(required=False)
     created_at = fields.DateTime(dump_only=True)
