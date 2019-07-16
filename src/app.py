@@ -1,9 +1,12 @@
 from flask import Flask, request
+from flask_socketio import SocketIO
 from flask_cors import CORS
 from . import config
 from .models import db, bcrypt, mail, mongo
 from flask_mail import Mail
 from src.jsonResponse import custom_response
+
+
 from .controllers.userController import user_api as user_blueprint
 from .controllers.followController import follow_api as follow_blueprint
 from .controllers.profileController import profile_api as profile_blueprint
@@ -24,6 +27,8 @@ def create_app():
     db.init_app(app)
     mail.init_app(app)
     mongo.init_app(app)
+    socket = SocketIO(app)
+
 
     #------------------------------------route-----------------------------------#
     app.register_blueprint(user_blueprint, url_prefix='/api/users')
@@ -37,9 +42,18 @@ def create_app():
     app.register_blueprint(cast_blueprint, url_prefix='/api/cast')
     # -----------------------------------route-----------------------------------#
 
+
     @app.route('/', methods=['GET'])
     def ac():
         return custom_response("API SPACEART", 200)
+
+    def messageRecived():
+        print('message was received!!!')
+
+    @socket.on('my event')
+    def handle_my_custom_event(json):
+        print('recived my event: ' + str(json))
+        socket.emit('my response', json, callback=messageRecived)
 
     @app.route('/route', methods=['GET'])
     def route():

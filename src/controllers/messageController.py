@@ -1,4 +1,4 @@
-from flask import request, Blueprint, g
+from flask import request, Blueprint, g, render_template
 from ..models.UserModel import UserModel, UserSchema
 from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
@@ -15,3 +15,8 @@ def message_private(user_id):
     for o in ok:
         test.append({'id': o['id']})
     return custom_response(test, 200)
+
+
+@message_api.route('/test', methods=['GET'])
+def test():
+    return render_template('test.html')
