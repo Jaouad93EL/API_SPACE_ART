@@ -48,6 +48,9 @@ class PostModel(db.Model):
     def get_id(self):
         return self.id
 
+    def get_user_id(self):
+        return self.user_id
+
 class PostSchema(Schema):
     id = fields.Int(dump_only=True)
     text = fields.Str(required=True)

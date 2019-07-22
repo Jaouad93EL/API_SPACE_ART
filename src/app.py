@@ -2,7 +2,8 @@ from flask import Flask, request
 from flask_socketio import SocketIO
 from flask_cors import CORS
 from . import config
-from .models import db, bcrypt, mail, mongo
+from .models import db, bcrypt, mail, mongo, socket
+from .models.UserModel import UserModel, UserSchema
 from flask_mail import Mail
 from src.jsonResponse import custom_response
 
@@ -16,6 +17,7 @@ from .controllers.postController import post_api as post_blueprint
 from .controllers.likeController import like_api as like_blueprint
 from.controllers.messageController import message_api as message_blueprint
 from.controllers.castController import cast_api as cast_blueprint
+user_schema = UserSchema()
 
 
 def create_app():
@@ -27,7 +29,7 @@ def create_app():
     db.init_app(app)
     mail.init_app(app)
     mongo.init_app(app)
-    socket = SocketIO(app)
+    socket.init_app(app)
 
 
     #------------------------------------route-----------------------------------#
@@ -52,8 +54,16 @@ def create_app():
 
     @socket.on('my event')
     def handle_my_custom_event(json):
-        print('recived my event: ' + str(json))
-        socket.emit('my response', json, callback=messageRecived)
+        ok = 're' + str(json['id_you'])
+        notif = 'notif' + str(json['id_you'])
+        no = 're' + str(json['id_me'])
+        json['who'] = '!me'
+        socket.emit(ok, json, callback=messageRecived)
+        json['who'] = 'me'
+        socket.emit(no, json, callback=messageRecived)
+        user = user_schema.dump(UserModel.get_one_user(json['id_me'])).data
+        json['firstname'], json['lastname'], json['type'] = user['firstname'], user['lastname'], 'message'
+        socket.emit(notif, json, callback=messageRecived)
 
     @app.route('/route', methods=['GET'])
     def route():
