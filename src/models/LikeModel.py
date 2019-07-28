@@ -54,11 +54,18 @@ class LikeModel(db.Model):
     def get_one_if_liked(post_id, user_id):
         return LikeModel.query.filter_by(post_id=post_id, user_id=user_id).first()
 
+    @staticmethod
+    def get_all_if_liked(post_id):
+        return LikeModel.query.filter_by(post_id=post_id).all()
+
     def __repr(self):
         return '<id {}>'.format(self.id)
 
     def get_id(self):
         return self.id
+
+    def get_user_id(self):
+        return self.user_id
 
 class LikeSchema(Schema):
     id = fields.Int(dump_only=True)

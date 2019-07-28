@@ -57,13 +57,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.7.3/socket.io.min.js"></script>
     <script>
-      var socket = io.connect("http://www.api-jaouad93.tk" + ':' + "80")
+      var socket = io.connect('http://127.0.0.1:5000')
       // broadcast a message
       socket.on( 'connect', function() {
-        socket.emit( 'my event', {
-          data: 'User Connected'
-        } )
-        var form = $( 'form' ).on( 'submit', function( e ) {
+        socket.emit('my event',
+
+            {
+                sender: 1, // l'id du mec qui a envoyé le message
+                message: "je suis le message de la dexieme conv mais la le dernier 2",
+                users: [1, 2, 3] // les id des gens qui sont dans la conversation
+            }
+
+            );
+
+
+          socket.emit('my event2', {
+          data: 'my event2'
+        })
+          var form = $( 'form' ).on( 'submit', function( e ) {
           e.preventDefault()
           let user_name = $( 'input.username' ).val()
           let user_input = $( 'input.message' ).val()
@@ -74,15 +85,16 @@
           // empty the input field
           $( 'input.message' ).val( '' ).focus()
         } )
-      } )
+      })
+
       // capture message
       socket.on( 'my response', function( msg ) {
         console.log( msg )
-        if( typeof msg.user_name !== 'undefined' ) {
-          $( 'h1' ).remove()
-          $( 'div.message_holder' ).append( '<div class="msg_bbl"><b style="color: #000">'+msg.user_name+'</b> '+msg.message+'</div>' )
-        }
-      } )
+      })
+
+      socket.on( 'my response2', function( msg ) {
+        console.log( msg )
+      })
     </script>
   </body>
 </html>

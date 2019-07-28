@@ -5,8 +5,7 @@ from ..models.LikeModel import LikeModel, LikeSchema
 from ..models.NewsfeedModel import NewsfeedModel, NewsfeedSchema
 from src.jsonResponse import custom_response
 from ..models import socket
-from .models.UserModel import UserModel, UserSchema
-from flask_socketio import SocketIO
+from ..models.UserModel import UserModel, UserSchema
 
 like_api = Blueprint('like', __name__)
 post_schema = PostSchema()
@@ -27,7 +26,7 @@ def like_post(post_id):
     if LikeModel.get_one_if_liked(post.get_id(), g.user.get('id')):
         like = LikeModel.get_one_if_liked(post.get_id(), g.user.get('id'))
         if not like: return custom_response({'error': 'You not liked this post.'}, 400)
-        news = NewsfeedModel.get_one_news_by_user_id(like.get_id(), g.user.get('id'))
+        news = NewsfeedModel.get_one_news_by_user_id_and_parent_id(like.get_id(), g.user.get('id'))
         if not news: return custom_response({'error': 'You not liked this news.'}, 400)
         like.delete()
         news.delete()
@@ -40,8 +39,11 @@ def like_post(post_id):
     json = {
         'type': 'like',
         'firstname': user['firstname'],
-        'lastname': user['lastname']
+        'lastname': user['lastname'],
+        'user_notif': 'notif' + str(post.get_user_id())
     }
-    notif = 'notif' + str(post.get_user_id())
-    socket.emit(notif, json, callback=messageRecived)
+    @socket.on('my event2')
+    def notif_like(json):
+        socket.emit(json['user_notif'], json)
+    notif_like(json)
     return custom_response({'success': 1}, 200)

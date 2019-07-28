@@ -4,8 +4,10 @@ from flask_cors import CORS
 from . import config
 from .models import db, bcrypt, mail, mongo, socket
 from .models.UserModel import UserModel, UserSchema
+from .models.PrivateModel import PrivateModel
 from flask_mail import Mail
 from src.jsonResponse import custom_response
+from src.useful.typeConverter import IntListConverter
 
 
 from .controllers.userController import user_api as user_blueprint
@@ -19,17 +21,19 @@ from.controllers.messageController import message_api as message_blueprint
 from.controllers.castController import cast_api as cast_blueprint
 user_schema = UserSchema()
 
-
 def create_app():
     app = Flask(__name__)
-    config.send_mail = Mail(app)
-    CORS(app)
+    #type
+    app.url_map.converters['listInt'] = IntListConverter
+    #
     app.config.from_object(config.app_config['development'])
+    config.send_mail = Mail(app)
     bcrypt.init_app(app)
     db.init_app(app)
     mail.init_app(app)
     mongo.init_app(app)
     socket.init_app(app)
+    CORS(app)
 
 
     #------------------------------------route-----------------------------------#
@@ -49,21 +53,27 @@ def create_app():
     def ac():
         return custom_response("API SPACEART", 200)
 
-    def messageRecived():
-        print('message was received!!!')
-
     @socket.on('my event')
     def handle_my_custom_event(json):
-        ok = 're' + str(json['id_you'])
-        notif = 'notif' + str(json['id_you'])
-        no = 're' + str(json['id_me'])
-        json['who'] = '!me'
-        socket.emit(ok, json, callback=messageRecived)
-        json['who'] = 'me'
-        socket.emit(no, json, callback=messageRecived)
-        user = user_schema.dump(UserModel.get_one_user(json['id_me'])).data
-        json['firstname'], json['lastname'], json['type'] = user['firstname'], user['lastname'], 'message'
-        socket.emit(notif, json, callback=messageRecived)
+        user_sender_info = user_schema.dump(UserModel.get_one_user(json['sender'])).data
+        user_sender_data = {
+            'id': user_sender_info['id'],
+            'firstname': user_sender_info['firstname'],
+            'lastname': user_sender_info['lastname'],
+            'message': json['message'],
+            'type': 'message'
+        }
+        for user in json['users']:
+            # socket.emit('re' + str(user), user_sender_data)
+            socket.emit('my response', user_sender_data)
+            if user != json['sender']:
+                # socket.emit('notif' + str(user), user_sender_data)
+                socket.emit('my response', user_sender_data)
+        private = list(PrivateModel.get_one_private_conversation_by_li_user(json['users']))
+        if private:
+            PrivateModel.add_one_private_message_in_conversation(str(private[0]['_id']), user_sender_data)
+        else:
+            PrivateModel.new_private_conversation(json['users'], user_sender_data)
 
     @app.route('/route', methods=['GET'])
     def route():
@@ -75,3 +85,4 @@ def create_app():
             links[count], count = {"Method": method[0], "url": url_root[0] + str(rule)}, count + 1
         return custom_response(links, 200)
     return app
+

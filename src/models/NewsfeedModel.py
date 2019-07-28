@@ -38,7 +38,11 @@ class NewsfeedModel(db.Model):
 
     @staticmethod
     def get_one_news_by_user_id(news_id, user_id):
-        return NewsfeedModel.query.filter_by(id=news_id, user_id=user_id).first()
+        return NewsfeedModel.query.filter_by(parent_id=news_id, user_id=user_id).first()
+
+    @staticmethod
+    def get_one_news_by_user_id_and_parent_id(parent_id, user_id):
+        return NewsfeedModel.query.filter_by(parent_id=parent_id, user_id=user_id).first()
 
     def __repr(self):
         return '<id {}>'.format(self.id)

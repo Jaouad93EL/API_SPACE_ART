@@ -4,6 +4,7 @@ from ..models.ProfileModel import ProfileModel, ProfileSchema
 from ..models.UserModel import UserModel, UserSchema
 from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
+from ..models import socket
 
 follow_api = Blueprint('follow', __name__)
 follow_schema = FollowSchema()
@@ -14,6 +15,10 @@ user_schema = UserSchema()
 @follow_api.route('/newfollowing/<int:follow_id>', methods=['GET'])
 @Auth.auth_required
 def newfollowing(follow_id):
+    @socket.on('my event3')
+    def notif_user_follow(json):
+        socket.emit(json['user_notif'], json)
+        print("follow notif")
     follow = FollowModel.get_follow(follow_id, g.user.get('id'))
     if follow or g.user.get('id') == follow_id:
         return custom_response({'error': 'Follow failed.'}, 400)

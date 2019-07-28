@@ -42,6 +42,12 @@ def delete_post(post_id):
     if not post: return custom_response({'error': 'Not your Post'}, 400)
     news = NewsfeedModel.get_one_news_by_user_id(post.get_id(), g.user.get('id'))
     if not news: return custom_response({'error': 'Not your News'}, 400)
+    likes = LikeModel.get_all_if_liked(post_id)
+    for like in likes:
+        news_like = NewsfeedModel.get_one_news_by_parent_id(like.get_id())
+        if news_like:
+            news_like.delete()
+        like.delete()
     post.delete()
     news.delete()
     return custom_response({'success': 'Post delete'}, 200)
