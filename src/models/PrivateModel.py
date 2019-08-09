@@ -6,7 +6,10 @@ class PrivateModel:
 
     @staticmethod
     def new_private_conversation(li_user, message):
-        return mongo.db.private.insert_one({'users': li_user, 'data': [message]})
+        return mongo.db.private.insert_one({
+            'users': li_user,
+            'data': [message]
+        })
 
     @staticmethod
     def get_one_private_conversation_by_li_user(li_user):
@@ -26,26 +29,24 @@ class PrivateModel:
     @staticmethod
     def add_one_private_message_in_conversation(id_conv, message):
         return mongo.db.private.update({
-            "_id": ObjectId(id_conv),
-        },
-            {"$push": {'data': message}}
-        )
+                "_id": ObjectId(id_conv),
+            },
+            {
+                "$push": {
+                    'data': message
+                }
+            })
 
     @staticmethod
     def leave_private_conversation(user_id, id_conv):
         return mongo.db.private.update({
-            "_id": ObjectId(id_conv),
-        },
+                "_id": ObjectId(id_conv),
+            },
             {
                 "$pull": {
                     'users': user_id
                 }
-            }
-        )
-
-    @staticmethod
-    def get_all():
-        return mongo.db.private.find()
+            })
 
     @staticmethod
     def get_all_private_conversion_by_user_id(user_id):
@@ -59,6 +60,10 @@ class PrivateModel:
                     "$slice": -1
                 }
             })
+
+    @staticmethod
+    def get_all():
+        return mongo.db.private.find()
 
     @staticmethod
     def test():

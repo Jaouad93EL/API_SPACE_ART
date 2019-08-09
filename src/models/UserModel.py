@@ -11,6 +11,7 @@ class UserModel(db.Model):
     lastname = db.Column(db.String(128), nullable=False)
     email = db.Column(db.String(128), unique=True, nullable=False)
     password = db.Column(db.String(128), nullable=False)
+    sex = db.Column(db.String(128), nullable=False)
     social_id = db.Column(db.Integer, nullable=True)
     right = db.Column(db.Integer, nullable=True)
     private = db.Column(db.Integer, nullable=True)

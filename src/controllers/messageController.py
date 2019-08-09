@@ -9,18 +9,21 @@ import json
 message_api = Blueprint('message', __name__)
 user_schema = UserSchema()
 
-@message_api.route('/get_my_private_conversation/<int:test>', methods=['GET'])
-def get_my_private_conversation(test):
+@message_api.route('/get_my_private_conversation', methods=['GET'])
+@Auth.auth_required
+def get_my_private_conversation():
     li_conv = []
-    all_conv = PrivateModel.get_all_private_conversion_by_user_id([test])
+    all_conv = PrivateModel.get_all_private_conversion_by_user_id([g.user.get('id')])
     for conv in all_conv:
         li_conv.append({'id': str(conv['_id']),'users': conv['users'], 'last_message': conv['data'][0]})
     return custom_response({'success': li_conv}, 200)
 
 
-@message_api.route('/leave_private_conversation/<int:test>/<string:id_conv>', methods=['GET'])
-def leave_private_conversation(test, id_conv):
-    PrivateModel.leave_private_conversation(test, id_conv)
+@message_api.route('/leave_private_conversation/<string:id_conv>', methods=['GET'])
+@Auth.auth_required
+def leave_private_conversation(id_conv):
+    leave_return = PrivateModel.leave_private_conversation(g.user.get('id'), id_conv)
+    print('LEAVE CONV  ===>  ', leave_return)
     return custom_response({'success': id_conv}, 200)
 
 

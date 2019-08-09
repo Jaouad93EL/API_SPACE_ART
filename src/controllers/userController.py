@@ -2,6 +2,7 @@ from flask import request, Blueprint, g
 from .mailController import login_success,randomString
 from ..models.UserModel import UserModel, UserSchema
 from ..models.ProfileModel import ProfileModel
+from ..models.NotifModel import NotifModel
 from ..models.RevokedTokenModel import RevokedTokenModel
 from src.jsonResponse import custom_response
 from ..shared.Authentication import Auth
@@ -25,6 +26,7 @@ def create():
         return custom_response({'error': 'Email address not found'}, 400)
     user = UserModel(data, 0, random_key + "-0")
     user.save()
+    NotifModel.init_by_user_id(user.id)
     profile = ProfileModel({}, user.id)
     profile.save()
     return custom_response({'success': 'User created'}, 201)
@@ -203,6 +205,7 @@ def google_login():
         profile = ProfileModel({}, user.id)
         profile.picture_profile(data.get('picture'), "empty")
         profile.save()
+        NotifModel.init_by_user_id(user.id)
         token = Auth.generate_token(user_schema.dump(user).data.get('id'))
         return custom_response(UserModel.info_user(user, token), 200)
     return custom_response("Unauthorized, Could not fetch your information.", 400)

@@ -3,16 +3,16 @@ from google.oauth2 import service_account
 from requests_oauthlib import OAuth2Session
 
 google_config = {
-    "type": "service_account",
-    "project_id": "spaceart-238712",
-    "private_key_id": "ccbd248ec09ba3d6387881ff1d85220ae0ea8bd0",
-    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDhabNzOC9j4C8P\nw7tAvYN0ZhpHStfBvuHmikOtBEOIp0cJ9X77Y4Yrn+n2BYxqja5oJypn2nUDdieS\nDlAdPNYP12CD9OVlZoMMalc43XqJOvQm12qFgJTpw2FCwD50xyO+sEu0KJWZCJZD\n56YXOKp9a9GAC3qXGRloouY7Vmtz5NeRtRGwes4CgrqBLSy0FYhBW2yGvguw/SQc\nIAYpRgXSS5eq5e2sdU+sdxhbXmEwkBMxmB0JSuVM1YLEPb7DMM1HMWLzmlaY3ZGL\nYjbiLdmhGVXRwZgbaLiFCrKX3nUpd3bg/Cn1cyOWz9H6zuwV/igLLDWI1Cj1UQst\ng0lzKeI5AgMBAAECggEAAebU4z0PNUrMyteOMSq7VnrBo2Yi8aXNHRdMhxCl2AJl\nRVTwLpz1b4SVW9FKXaz27Dafk0NS2mXsSb11X16S7CZKg6jhjvXxV0qSx5sivGnZ\naalGlkklhUVaZ2hDMdQEqq6tEzns05IwrL9iQm7kpuzUCYsCcttJpuOjVc8FI0Cm\nb8GJYv6xUeBYG18Aa/8x8WVBrsitZgVW55WAM7PTGSw3NCH05HVd1bIq8CjJQz99\nrqengoZvSMYKbe/ZFLSbcBPGMTEk2oorBLTzpyw4RIUkqDPCa/gu4QH2geFptmYT\npg8Dbb2MtLNGKa/FB3onKAHRZlOaH5G4dDT+DcH5owKBgQD5bhgNHjg6TSdL58MW\njk81fnD9/JgyENbFKKBqEMTkCUjncGtmNWy3DYDnslCzkqLgOl6fFz1PVq/EJ5SX\noJS6HDjHM73Fs5Exzne8WiT3x/dKl3bdynsxG+mL1FwL0uA/A2SsTqfgt3YqZfa0\nvrnQahrtJrTxrLTj9vGpJ+rmpwKBgQDnWajOD2Az+L4D6fmIANGCgJzLZr7uLyg2\nDmWkJpFWSslg2Holq2tcKzUNLlf7S3BnLCFK7lQNUo2ksY2YaOaNvBLr9YISdFAk\nztkuNyisKp5H6GCSKNQiJ2iWYEa7eKxm++Pwr3ZelXZswCrnK+/rZSpf+fFyeFOK\nv42R3vrsHwKBgGJG7JcOlxzxlVAlCwryG2d6YE7SnazsUZLxRPNFlC49MkpuUwK8\nfg9J9MZVzdJTLnWmye1pHLEL+MkSx0tO7ArAX+atDlK9Q7IaJbdC1VoDof3z29Pb\nmdppowWDMJlABzcMwTfa7e5umtJtxlzE4TWq+N0D6TtnzwYbIHCD19v1AoGAaQUE\nYfYM38rMxw4RXjGw6aLkiljr10fE4zUJ4sg3NYrhe3sJh8wXAlIC1SbyfXqzXcJk\nopUpxppw/hAzjLoh3rk/hal/EE2IjAzx/c7AQdde3pmYLQEnuxFUot61fSi8akty\nH7Im86y5g4iAcUw6rwrPf54AgswocFWgOFWWZlUCgYEA6vXt9FL5qWgytkU/mNbW\n7Rxqa6+ulJSU4JehXEt1aW8pAXFjVyVKsk25nDj/BBZDYllPMOj8ft4jUGwCQyNg\nK3v7RWRhpcGn1R5Gj52FyEn4rvlaw8CeIvCW3zkq8E+P5rI/alvZepkU/pGWBSBY\nUH8F5FUHaCAQ9HdbhloO+OA=\n-----END PRIVATE KEY-----\n",
-    "client_email": "spaceart@spaceart-238712.iam.gserviceaccount.com",
-    "client_id": "110358215360033227158",
-    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-    "token_uri": "https://oauth2.googleapis.com/token",
-    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/spaceart%40spaceart-238712.iam.gserviceaccount.com"
+  "type": "service_account",
+  "project_id": "space-art-249220",
+  "private_key_id": "14eb7084d081ac42a9575380e99b0ff12e0170a7",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQC94JYUqZIXi8GO\n24M0N/aHEcB9kyn5FVaa/hvZLXKZWRhnuA13U5v9xmvw5cDaWoWSBjLd6kGxhLTx\ntw/CvVLGBVr5IAEiCPMcfIXIV7a8tF0Z5Hgpt9N/XY8O9y2bUFYFvzT6Ityorvyh\nfYa3g93wvzNwHjpm5EHIZedRb68LUn6YvdgQSYcR9I24MR4BWBGYBaT8OcewVZ9j\nS+W/dogE07hfvVwaMLADRff0iTy/lzb+FPxbm4HoS2HCCgYWpAFl7IxuX03daw2i\nKIIs8hogkP5sqDG4dMZwU+9QFfsoTLpML6DuVKTyBAnCSUkYPW5WsIdm+QwXpIMR\nUAs/nb+xAgMBAAECggEAAsIAsAlj+LFUFP75dYBUFXNjrjc9WnOtw7fJ4AJF2jYV\n8Yi18lwdpYaUogW2Qr2il8O9CKXawSkuJx4bbZ7KFVv1za1CMvQ6Erl4yHeErRI6\nEXKU77curFiHp8YdjJZSv4fezTzFI3KSMwbDloYE6taeGMRpoP2y+mYHgXJrspCA\nZGOVe1Iq4WkEWWo7X1ggLVN80S1im+eyEC9kPwklLkMQuW93ZuPlZQvwWMNWhFQf\nvurox5PlwtKBTy6wUy0N2Z0yIpbCKfEpziBjgpQQ5NvNVcLttVWQJJVJnwOyMZ5+\nFyNIvtn8SjNhjpBSgOZOFObtGILN9LA4IzvBo4EYmQKBgQDdn8m9LDuN9qwDBr11\nwJTTvolknigonVWQEweOysYhegjkuSwB21aKUL328yL0No1pRarjEIhdGColH374\nCjHdOlZhmr1MHW2C6MYIibG5+2AOIMl++YRkdSYap18PjTBXtEKqPnBzDloNVo/O\nME1TH+UDwjOr2g3XfFwXvaXGKQKBgQDbVDLng8Q6gYr31cVWrPIILL8C+HRyuLAg\nBSSoD8fXWuNN4o7XYEn8BtKHn9MQC863jhTbrNrpLtxRh0eU9bgX0iaW/+cOo5AE\nAbY20HJwo2g4ucvylS4LRmafoTMdrdHMSVxe94Cl41leTBbJAgJ3eRZZIksVRlDT\nVLQ/ArIOSQKBgQCk3cZkrPAMtrDVe4EbhMzyC+8HY8Q6GnjZOd7Icb4cjzzocXv0\nUae6M0Bt4gdhpudhpcrvKZBXuK85eImqmWLo0QoLh+JEKiwaU3FmTpBg60hUmj1q\n8NF1LdTPxSypU/3fcKCbJuHeJZIGFBvcZgBP0w0505E+yXK8l62ml5UnqQKBgFiM\nfty/cwrX4B48/SYIPtMUFa4CVyk17U2QJgOAE4ObmyeHr3m+0z/gFUFSQmk5CyVK\nRJuIBv2bwLFdt4WpSsC7RH80I7niSTOE6Wbp8zoMjvhP8somdmdw7d/GuhdiZNBg\nUd25eQQAbMVIXO6cVBieF2q3EK8vK1SW3wqNcQuZAoGAJTAH4hXmGiEyhzq5bfFl\nYO2oW3i7N7bSRraiua9/+/voO3oPAh5UQ3Hm3SN/tebChqPb2UhfRlCzv6CZLWRA\nERv1UJI1mOyAtZCRET1ux8c1FqScbn+wUBlFi44qZkcLAm5wi11clsOiZ8Owse9I\nQMVeuVLanmiFvc+fBZFlcos=\n-----END PRIVATE KEY-----\n",
+  "client_email": "space-art@space-art-249220.iam.gserviceaccount.com",
+  "client_id": "113730196016364804583",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/space-art%40space-art-249220.iam.gserviceaccount.com"
 }
 
 CLIENT_ID = '354503433014-dt8bat8cgaosk5ci76qquc13vgv2ofb9.apps.googleusercontent.com'
@@ -52,7 +52,7 @@ def delete_in_google(bucket_name, id_rep, file_name):
     del_file.delete()
 
 def delete_user_google(user_id):
-    li = ['audio_space_art', 'banner_space_art', 'picture_space_art', 'video_space_art']
+    li = ['space_art_audio', 'space_art_banner', 'space_art_picture', 'space_art_video']
     for l in li:
         bucket = storage_client.get_bucket(l)
         del_rep = bucket.blob(user_id + '/')

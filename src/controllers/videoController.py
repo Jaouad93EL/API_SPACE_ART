@@ -24,7 +24,7 @@ def upload_video():
     video_in_db = VideoModel.get_video_by_titre(data.get('titre'))
     if video_in_db:
         return custom_response({'error': 'Titre already exist.'}, 400)
-    url = google.store_in_google("video_space_art", str(g.user.get('id')), video_storage)
+    url = google.store_in_google("space_art_video", str(g.user.get('id')), video_storage)
     video = VideoModel(data, g.user.get('id'), video_storage.filename, url)
     video.save()
     video_data = {
@@ -83,8 +83,8 @@ def update_video_storage_by_id(id_video):
     if not video_storage or video_storage.content_type != 'video/mp4':
         return custom_response({'error': 'Is not a mp4 file.'}, 400)
     video = VideoModel.get_video_by_id(id_video)
-    google.delete_in_google("video_space_art", str(g.user.get('id')), video.video_name_storage)
-    url = google.store_in_google("video_space_art", str(g.user.get('id')), video_storage)
+    google.delete_in_google("space_art_video", str(g.user.get('id')), video.video_name_storage)
+    url = google.store_in_google("space_art_video", str(g.user.get('id')), video_storage)
     video.update_url(url, video_storage.filename)
     return custom_response({'successful': {'url': urllib.parse.unquote(video.url)}}, 200)
 
@@ -94,7 +94,7 @@ def update_video_storage_by_id(id_video):
 def delete_video(id_video):
     video = VideoModel.get_video_by_id(id_video)
     if video.user_id == g.user.get('id'):
-        google.delete_in_google("video_space_art", str(g.user.get('id')), video.video_name_storage)
+        google.delete_in_google("space_art_video", str(g.user.get('id')), video.video_name_storage)
         video.delete()
         return custom_response({'successful': 'Video delete'}, 200)
     return custom_response({'error': 'Is not your Video.'}, 400)

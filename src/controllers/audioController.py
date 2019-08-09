@@ -24,7 +24,7 @@ def upload_audio():
     audio_in_db = AudioModel.get_audio_by_titre(data.get('titre'))
     if audio_in_db:
         return custom_response({'error': 'Titre already exist.'}, 400)
-    url = google.store_in_google("audio_space_art", str(g.user.get('id')), audio_storage)
+    url = google.store_in_google("space_art_audio", str(g.user.get('id')), audio_storage)
     audio = AudioModel(data, g.user.get('id'), audio_storage.filename, url)
     audio.save()
     audio_data = {
@@ -83,8 +83,8 @@ def update_audio_storage_by_id(id_audio):
     if not audio_storage or audio_storage.content_type != 'audio/mp3' and audio_storage.content_type != 'audio/mpeg':
         return custom_response({'error': 'Is not a mp3 file.'}, 400)
     audio = AudioModel.get_audio_by_id(id_audio)
-    google.delete_in_google("audio_space_art", str(g.user.get('id')), audio.audio_name_storage)
-    url = google.store_in_google("audio_space_art", str(g.user.get('id')), audio_storage)
+    google.delete_in_google("space_art_audio", str(g.user.get('id')), audio.audio_name_storage)
+    url = google.store_in_google("space_art_audio", str(g.user.get('id')), audio_storage)
     audio.update_url(url, audio_storage.filename)
     return custom_response({'successful': {'url': urllib.parse.unquote(audio.url)}}, 200)
 
@@ -96,7 +96,7 @@ def delete_audio(id_audio):
     if not audio:
         return custom_response({'error': 'Audio not exist.'}, 400)
     if audio.user_id == g.user.get('id'):
-        google.delete_in_google("audio_space_art", str(g.user.get('id')), audio.audio_name_storage)
+        google.delete_in_google("space_art_audio", str(g.user.get('id')), audio.audio_name_storage)
         audio.delete()
         return custom_response({'successful': 'Audio delete'}, 200)
     return custom_response({'error': 'Is not your Audio.'}, 400)
