@@ -13,18 +13,6 @@ from src.models import CandidateModel
 from src.models import RevokedTokenModel
 
 
-u = UserModel
-p = ProfileModel
-f = FollowModel
-a = AudioModel
-v = VideoModel
-n = NewsfeedModel
-r = RevokedTokenModel
-po = PostModel
-c = CastModel
-ca = CandidateModel
-
-
 app = create_app()
 migrate = Migrate(app=app, db=db)
 manager = Manager(app=app)
